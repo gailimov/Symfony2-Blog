@@ -10,3 +10,6 @@ _demo:
     resource: "@AcmeDemoBundle/Controller/DemoController.php"
     type:     annotation
     prefix:   /demo
+    
+homepage:
+    resource: "@ProjectsBlogBundle/Resources/config/routing.yml"
