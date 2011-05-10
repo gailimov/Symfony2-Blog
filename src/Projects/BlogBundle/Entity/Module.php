@@ -11,8 +11,10 @@
 namespace Projects\BlogBundle\Entity;
 
 /**
+ * Projects\BlogBundle\Entity\Module
+ * 
  * @orm:Entity
- * @orm:Table(name="module")
+ * @orm:Table(name="sfb_module")
  */
 class Module
 {

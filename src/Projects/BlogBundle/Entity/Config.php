@@ -11,8 +11,10 @@
 namespace Projects\BlogBundle\Entity;
 
 /**
+ * Projects\BlogBundle\Entity\Config
+ * 
  * @orm:Entity
- * @orm:Table(name="config")
+ * @orm:Table(name="sfb_config")
  */
 class Config
 {

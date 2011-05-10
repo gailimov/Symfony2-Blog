@@ -11,8 +11,10 @@
 namespace Projects\BlogBundle\Entity;
 
 /**
+ * Projects\BlogBundle\Entity\Category
+ * 
  * @orm:Entity
- * @orm:Table(name="category")
+ * @orm:Table(name="sfb_category")
  */
 class Category
 {

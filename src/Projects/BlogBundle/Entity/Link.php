@@ -11,8 +11,10 @@
 namespace Projects\BlogBundle\Entity;
 
 /**
+ * Projects\BlogBundle\Entity\Link
+ * 
  * @orm:Entity
- * @orm:Table(name="link")
+ * @orm:Table(name="sfb_link")
  */
 class Link
 {

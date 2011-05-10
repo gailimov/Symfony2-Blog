@@ -11,8 +11,10 @@
 namespace Projects\BlogBundle\Entity;
 
 /**
+ * Projects\BlogBundle\Entity\Post
+ * 
  * @orm:Entity
- * @orm:Table(name="post")
+ * @orm:Table(name="sfb_post")
  */
 class Post
 {

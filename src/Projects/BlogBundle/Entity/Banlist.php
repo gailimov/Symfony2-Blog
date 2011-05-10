@@ -11,8 +11,10 @@
 namespace Projects\BlogBundle\Entity;
 
 /**
+ * Projects\BlogBundle\Entity\Banlist
+ * 
  * @orm:Entity
- * @orm:Table(name="banlist")
+ * @orm:Table(name="sfb_banlist")
  */
 class Banlist
 {

@@ -11,8 +11,10 @@
 namespace Projects\BlogBundle\Entity;
 
 /**
+ * Projects\BlogBundle\Entity\Role
+ * 
  * @orm:Entity
- * @orm:Table(name="role")
+ * @orm:Table(name="sfb_role")
  */
 class Role
 {

@@ -11,8 +11,10 @@
 namespace Projects\BlogBundle\Entity;
 
 /**
+ * Projects\BlogBundle\Entity\User
+ * 
  * @orm:Entity
- * @orm:Table(name="user")
+ * @orm:Table(name="sfb_user")
  */
 class User
 {

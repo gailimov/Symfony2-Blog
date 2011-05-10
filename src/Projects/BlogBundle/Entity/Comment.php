@@ -11,8 +11,10 @@
 namespace Projects\BlogBundle\Entity;
 
 /**
+ * Projects\BlogBundle\Entity\Comment
+ * 
  * @orm:Entity
- * @orm:Table(name="comment")
+ * @orm:Table(name="sfb_comment")
  */
 class Comment
 {
