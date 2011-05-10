@@ -24,7 +24,7 @@ class User
      * @var integer
      * 
      * @orm:Id
-     * @orm:Column(type="mediumint")
+     * @orm:Column(type="integer")
      * @orm:GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
@@ -35,7 +35,7 @@ class User
      * @var integer
      * 
      * @orm:ManyToOne(targetEntity="Role")
-     * @orm:JoinColumn(name="role_id", referencedColumnName="id")
+     * @orm:JoinColumn(name="role_id", referencedColumnName="id", nullable=false)
      */
     protected $roleId;
 
@@ -107,7 +107,7 @@ class User
      * 
      * @var integer
      * 
-     * @orm:Column(name="logged_at", type="datetime")
+     * @orm:Column(name="logged_at", type="datetime", nullable=true)
      */
     protected $loggedAt;
 
@@ -116,7 +116,7 @@ class User
      * 
      * @var boolean
      * 
-     * @orm:Column(type="boolean", columnDefinition="UNSIGNED DEFAULT '0'")
+     * @orm:Column(columnDefinition="TINYINT(1) UNSIGNED DEFAULT '0'")
      */
     protected $banned;
 
@@ -125,7 +125,7 @@ class User
      * 
      * @var boolean
      * 
-     * @orm:Column(type="boolean", columnDefinition="UNSIGNED DEFAULT '0'")
+     * @orm:Column(columnDefinition="TINYINT(1) UNSIGNED DEFAULT '0'")
      */
     protected $deleted;
 
@@ -133,5 +133,235 @@ class User
     {
         $this->createdAt = new \DateTime();
         $this->loggedAt  = new \DateTime();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string $username
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string $firstname
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string $email
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string $url
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string $password
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string $salt
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param datetime $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return datetime $createdAt
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set loggedAt
+     *
+     * @param datetime $loggedAt
+     */
+    public function setLoggedAt($loggedAt)
+    {
+        $this->loggedAt = $loggedAt;
+    }
+
+    /**
+     * Get loggedAt
+     *
+     * @return datetime $loggedAt
+     */
+    public function getLoggedAt()
+    {
+        return $this->loggedAt;
+    }
+
+    /**
+     * Set banned
+     *
+     * @param string $banned
+     */
+    public function setBanned($banned)
+    {
+        $this->banned = $banned;
+    }
+
+    /**
+     * Get banned
+     *
+     * @return string $banned
+     */
+    public function getBanned()
+    {
+        return $this->banned;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param string $deleted
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return string $deleted
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * Set roleId
+     *
+     * @param Projects\BlogBundle\Entity\Role $roleId
+     */
+    public function setRoleId(\Projects\BlogBundle\Entity\Role $roleId)
+    {
+        $this->roleId = $roleId;
+    }
+
+    /**
+     * Get roleId
+     *
+     * @return Projects\BlogBundle\Entity\Role $roleId
+     */
+    public function getRoleId()
+    {
+        return $this->roleId;
     }
 }

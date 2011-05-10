@@ -24,7 +24,7 @@ class Module
      * @var integer
      * 
      * @orm:Id
-     * @orm:Column(type="tinyint")
+     * @orm:Column(type="smallint")
      * @orm:GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
@@ -73,4 +73,114 @@ class Module
      * @orm:Column(type="boolean")
      */
     protected $activated;
+
+    /**
+     * Get id
+     *
+     * @return smallint $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string $description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set author
+     *
+     * @param string $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
+    /**
+     * Get author
+     *
+     * @return string $author
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Set version
+     *
+     * @param string $version
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+    }
+
+    /**
+     * Get version
+     *
+     * @return string $version
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * Set activated
+     *
+     * @param boolean $activated
+     */
+    public function setActivated($activated)
+    {
+        $this->activated = $activated;
+    }
+
+    /**
+     * Get activated
+     *
+     * @return boolean $activated
+     */
+    public function getActivated()
+    {
+        return $this->activated;
+    }
 }

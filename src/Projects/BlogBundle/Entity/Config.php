@@ -19,6 +19,16 @@ namespace Projects\BlogBundle\Entity;
 class Config
 {
     /**
+     * ID
+     * 
+     * @var integer
+     * 
+     * @orm:Id
+     * @orm:Column(type="smallint")
+     */
+    protected $id;
+
+    /**
      * URL
      * 
      * @var string
@@ -50,7 +60,7 @@ class Config
      * 
      * @var integer
      * 
-     * @orm:Column(name="posts_num", type="tinyint")
+     * @orm:Column(name="posts_num", type="smallint")
      */
     protected $postsNum;
 
@@ -59,7 +69,7 @@ class Config
      * 
      * @var boolean
      * 
-     * @orm:Column(name="comments_moderated", type="boolean", columnDefinition="UNSIGNED DEFAULT '0'")
+     * @orm:Column(name="comments_moderated", columnDefinition="TINYINT(1) UNSIGNED DEFAULT '0'")
      */
     protected $commentsModerated;
 
@@ -68,7 +78,147 @@ class Config
      * 
      * @var boolean
      * 
-     * @orm:Column(name="posts_moderated", type="boolean", columnDefinition="UNSIGNED DEFAULT '0'")
+     * @orm:Column(name="posts_moderated", columnDefinition="TINYINT(1) UNSIGNED DEFAULT '0'")
      */
     protected $postsModerated;
+
+    /**
+     * Set id
+     *
+     * @param smallint $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * Get id
+     *
+     * @return smallint $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string $url
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string $description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set postsNum
+     *
+     * @param smallint $postsNum
+     */
+    public function setPostsNum($postsNum)
+    {
+        $this->postsNum = $postsNum;
+    }
+
+    /**
+     * Get postsNum
+     *
+     * @return smallint $postsNum
+     */
+    public function getPostsNum()
+    {
+        return $this->postsNum;
+    }
+
+    /**
+     * Set commentsModerated
+     *
+     * @param string $commentsModerated
+     */
+    public function setCommentsModerated($commentsModerated)
+    {
+        $this->commentsModerated = $commentsModerated;
+    }
+
+    /**
+     * Get commentsModerated
+     *
+     * @return string $commentsModerated
+     */
+    public function getCommentsModerated()
+    {
+        return $this->commentsModerated;
+    }
+
+    /**
+     * Set postsModerated
+     *
+     * @param string $postsModerated
+     */
+    public function setPostsModerated($postsModerated)
+    {
+        $this->postsModerated = $postsModerated;
+    }
+
+    /**
+     * Get postsModerated
+     *
+     * @return string $postsModerated
+     */
+    public function getPostsModerated()
+    {
+        return $this->postsModerated;
+    }
 }

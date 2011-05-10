@@ -24,7 +24,7 @@ class Category
      * @var integer
      * 
      * @orm:Id
-     * @orm:Column(type="tinyint")
+     * @orm:Column(type="smallint")
      * @orm:GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
@@ -55,4 +55,74 @@ class Category
      * @orm:Column(type="string", length="100", nullable=true)
      */
     protected $description;
+
+    /**
+     * Get id
+     *
+     * @return smallint $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string $slug
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string $description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 }

@@ -24,7 +24,7 @@ class Role
      * @var integer
      * 
      * @orm:Id
-     * @orm:Column(type="tinyint")
+     * @orm:Column(type="smallint")
      * @orm:GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
@@ -46,4 +46,54 @@ class Role
      * @orm:Column(type="string", length="100", nullable=true)
      */
     protected $description;
+
+    /**
+     * Get id
+     *
+     * @return smallint $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string $description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 }

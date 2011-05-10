@@ -45,7 +45,7 @@ class Post
      * @var integer
      * 
      * @orm:ManyToOne(targetEntity="User")
-     * @orm:JoinColumn(name="user_id", referencedColumnName="id")
+     * @orm:JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     protected $userId;
 
@@ -91,7 +91,7 @@ class Post
      * 
      * @var string
      * 
-     * @orm:Column(type="mediumtext")
+     * @orm:Column(type="text")
      */
     protected $post;
 
@@ -109,7 +109,7 @@ class Post
      * 
      * @var integer
      * 
-     * @orm:Column(type="mediumint", columnDefinition="MEDIUMINT(7) UNSIGNED DEFAULT '0'")
+     * @orm:Column(columnDefinition="MEDIUMINT(7) UNSIGNED DEFAULT '0'")
      */
     protected $views;
 
@@ -127,7 +127,7 @@ class Post
      * 
      * @var boolean
      * 
-     * @orm:Column(type="boolean", columnDefinition="UNSIGNED DEFAULT '1'")
+     * @orm:Column(columnDefinition="TINYINT(1) UNSIGNED DEFAULT '1'")
      */
     protected $published;
 
@@ -136,7 +136,7 @@ class Post
      * 
      * @var boolean
      * 
-     * @orm:Column(name="comments_closed", type="boolean", columnDefinition="UNSIGNED DEFAULT '0'")
+     * @orm:Column(name="comments_closed", columnDefinition="TINYINT(1) UNSIGNED DEFAULT '0'")
      */
     protected $commentsClosed;
 
@@ -145,12 +145,282 @@ class Post
      * 
      * @var boolean
      * 
-     * @orm:Column(type="boolean", columnDefinition="UNSIGNED DEFAULT '1'")
+     * @orm:Column(columnDefinition="TINYINT(1) UNSIGNED DEFAULT '1'")
      */
     protected $approved;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+    }
+
+    /**
+     * Get id
+     *
+     * @return smallint $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string $slug
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string $description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set post
+     *
+     * @param text $post
+     */
+    public function setPost($post)
+    {
+        $this->post = $post;
+    }
+
+    /**
+     * Get post
+     *
+     * @return text $post
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param datetime $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return datetime $createdAt
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set views
+     *
+     * @param string $views
+     */
+    public function setViews($views)
+    {
+        $this->views = $views;
+    }
+
+    /**
+     * Get views
+     *
+     * @return string $views
+     */
+    public function getViews()
+    {
+        return $this->views;
+    }
+
+    /**
+     * Set postType
+     *
+     * @param string $postType
+     */
+    public function setPostType($postType)
+    {
+        $this->postType = $postType;
+    }
+
+    /**
+     * Get postType
+     *
+     * @return string $postType
+     */
+    public function getPostType()
+    {
+        return $this->postType;
+    }
+
+    /**
+     * Set published
+     *
+     * @param string $published
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+    }
+
+    /**
+     * Get published
+     *
+     * @return string $published
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * Set commentsClosed
+     *
+     * @param string $commentsClosed
+     */
+    public function setCommentsClosed($commentsClosed)
+    {
+        $this->commentsClosed = $commentsClosed;
+    }
+
+    /**
+     * Get commentsClosed
+     *
+     * @return string $commentsClosed
+     */
+    public function getCommentsClosed()
+    {
+        return $this->commentsClosed;
+    }
+
+    /**
+     * Set approved
+     *
+     * @param string $approved
+     */
+    public function setApproved($approved)
+    {
+        $this->approved = $approved;
+    }
+
+    /**
+     * Get approved
+     *
+     * @return string $approved
+     */
+    public function getApproved()
+    {
+        return $this->approved;
+    }
+
+    /**
+     * Set categoryId
+     *
+     * @param Projects\BlogBundle\Entity\Category $categoryId
+     */
+    public function setCategoryId(\Projects\BlogBundle\Entity\Category $categoryId)
+    {
+        $this->categoryId = $categoryId;
+    }
+
+    /**
+     * Get categoryId
+     *
+     * @return Projects\BlogBundle\Entity\Category $categoryId
+     */
+    public function getCategoryId()
+    {
+        return $this->categoryId;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param Projects\BlogBundle\Entity\User $userId
+     */
+    public function setUserId(\Projects\BlogBundle\Entity\User $userId)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return Projects\BlogBundle\Entity\User $userId
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set moduleId
+     *
+     * @param Projects\BlogBundle\Entity\Module $moduleId
+     */
+    public function setModuleId(\Projects\BlogBundle\Entity\Module $moduleId)
+    {
+        $this->moduleId = $moduleId;
+    }
+
+    /**
+     * Get moduleId
+     *
+     * @return Projects\BlogBundle\Entity\Module $moduleId
+     */
+    public function getModuleId()
+    {
+        return $this->moduleId;
     }
 }
