@@ -33,7 +33,7 @@ class Post
      * @var integer
      * 
      * @orm:ManyToOne(targetEntity="Category")
-     * @orm:JoinColumn(name="category_id", referencedColumnName="id")
+     * @orm:JoinColumn(name="category_id", nullable=true, referencedColumnName="id")
      */
     protected $categoryId;
 
@@ -46,6 +46,16 @@ class Post
      * @orm:JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $userId;
+
+    /**
+     * ID of module
+     * 
+     * @var integer
+     * 
+     * @orm:ManyToOne(targetEntity="Module")
+     * @orm:JoinColumn(name="module_id", nullable=true, referencedColumnName="id")
+     */
+    protected $moduleId;
 
     /**
      * Slug
@@ -133,7 +143,7 @@ class Post
      * 
      * @var boolean
      * 
-     * @orm:Column(type="bool", columnDefinition="UNSIGNED DEFAULT '1'")
+     * @orm:Column(type="boolean", columnDefinition="UNSIGNED DEFAULT '1'")
      */
     protected $approved;
 
