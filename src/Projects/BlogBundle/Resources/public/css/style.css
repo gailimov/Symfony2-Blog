@@ -1,0 +1,459 @@
+/**
+ * Main CSS-styles file
+ * 
+ * Specifications: HTML 5, CSS 3
+ * 
+ * @author    Kanat Gailimov, http://gailimov.info
+ * @copyright Kanat Gailimov, 2011
+ */
+
+
+/**
+ * Reset
+ * 
+ * @license none (public domain)
+ * @link    http://meyerweb.com/eric/tools/css/reset/
+ * @section reset
+ * @version v2.0 | 20110126
+ */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/**
+ * Body
+ * 
+ * @section body
+ */
+body {
+    margin: 2% 0;
+    font: 16px/26px Verdana, Tahoma, Arial, Helvetica, sans-serif;
+    color: #696969;
+    background: #f1f1f1
+}
+
+/**
+ * Tags
+ * 
+ * @section tags
+ */
+h1 {
+    font-size: 36px;
+    line-height: 46px
+}
+
+h2 {
+    font-size: 32px;
+    line-height: 42px
+}
+
+h3 {
+    font-size: 28px;
+    line-height: 38px
+}
+
+h4 {
+    font-size: 24px;
+    line-height: 34px
+}
+
+h5 {
+    font-size: 20px;
+    line-height: 30px
+}
+
+h6 {
+    font-size: 18px;
+    line-height: 28px
+}
+
+a {
+    color: #4682B4;
+    text-decoration: underline
+}
+
+    a:hover {
+        color: #696969;
+        text-decoration: none
+    }
+
+p {margin: 20px 0}
+
+sup {
+    vertical-align: baseline;
+    position: relative;
+    top: -0.4em
+}
+
+blockquote {
+    padding-left: 20px;
+    border-left: 1px solid #696969
+}
+
+pre {
+    /*padding-left: 20px;
+    color: #0000FF;*/
+    color: #fff
+    /*border-left: 1px solid #696969*/
+}
+
+dl {background: #fff}
+
+    dl dt {
+        width: 200px;
+        margin-right: 10px;
+        padding: 5px;
+        float: left;
+        font-weight: bold
+    }
+    
+    dl dd {
+        margin: 5px 0;
+        padding: 5px 0
+    }
+
+/**
+ * Common classes
+ * 
+ * @section classes
+ */
+.clear {clear: both}
+
+.border-rounded {border-radius: 15px}
+
+.icons {opacity: 0.7}
+                
+    .icons:hover {opacity: 1}
+
+.left {float: left}
+
+.right {float: right}
+
+.small {font-size: 14px}
+
+.code {
+    margin: 20px 0;
+    padding: 5px 20px;
+    background: #222;
+    overflow: auto
+}
+
+.code-word {color: #FF8C00}
+
+.code-print {color: #32CD32}
+
+.code-comment {color: #808080}
+
+.gravatar {
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin: 5px 5px 0 0;
+}
+
+.reply {text-align: right}
+    
+.ajax {
+    text-decoration: none;
+    border-bottom: 1px dashed #4682B4
+}
+
+    .ajax:hover {
+        text-decoration: none;
+        border-bottom: 1px dashed #696969
+    }
+
+.error {color: #B22222}
+
+    .error ul {
+        list-style-type: disc;
+        margin-left: 25px
+    }
+    
+div.error {
+    padding: 10px;
+    background: #F08080;
+    border-radius: 10px
+}
+
+.scrollTop {
+    width: 50px;
+    height: 50px;
+    display: block;
+    position: fixed;
+    left: 80%;
+    bottom: 10px;
+    z-index: 2000;
+    background: url('../img/arrows.png') 0 0 no-repeat
+}
+
+    .scrollTop:hover {background-position: 0 -58px}
+
+    /**
+     * Main wrapper
+     * 
+     * @section wrapper
+     */
+    #wrapper {
+        width: 960px;
+        margin: 0 auto;
+        background: #fff;
+        /*border: 1px solid #ccc*/
+    }
+    
+        /**
+         * Header
+         * 
+         * @section header
+         */
+        .head-wrapper {
+            width: 960px;
+            text-align: center;
+            background: #fff
+        }
+        
+            .logo {
+                width: 460px;
+                height: 100px;
+                float: left;
+                background: #fff
+            }
+            
+                .logo h1 {margin: 5px 25px}
+                
+                .logo h1 a {text-decoration: none}
+            
+            nav {
+                width: 500px;
+                height: 100px;
+                float: right;
+                background: #fff
+            }
+            
+                nav li {display: inline}
+            
+                nav .nav li {
+                    margin: 0 10px;
+                    font-size: 18px
+                }
+        
+        /**
+         * Content
+         * 
+         * @section content
+         */
+        .content-wrapper {
+            width: 660px;
+            float: left;
+            background: #fff
+        }
+        
+            .content-wrapper .posts {background: #fff}
+            
+                .content-wrapper .posts article {margin: 40px}
+                
+                    .content-wrapper .posts article header {margin-bottom: 30px}
+                    
+                    .content-wrapper .posts article ul {
+                        list-style-type: disc;
+                        margin-left: 15px
+                    }
+                    
+                    .content-wrapper .posts article ol {
+                        list-style-type: decimal;
+                        margin-left: 20px
+                    }
+                    
+                    .content-wrapper .posts article .contact-form div {margin: 10px 0}
+                    
+                        .content-wrapper .posts article .contact-form textarea {
+                            padding: 5px;
+                            font: 16px/26px Verdana, Tahoma, Arial, Helvetica, sans-serif;
+                            color: #696969;
+                            border: 1px solid #4682B4;
+                            border-radius: 10px
+                        }
+                        
+                            .content-wrapper .posts article .contact-form textarea:focus {border: 2px solid #696969}
+                        
+                        .content-wrapper .posts article .contact-form input[type="text"],
+                        .content-wrapper .posts article .contact-form input[type="email"] {
+                            width: 200px;
+                            padding: 5px;
+                            font: 16px/26px Verdana, Tahoma, Arial, Helvetica, sans-serif;
+                            color: #696969;
+                            border: 1px solid #4682B4;
+                            border-radius: 10px
+                        }
+                        
+                            .content-wrapper .posts article .contact-form input[type="text"]:focus,
+                            .content-wrapper .posts article .contact-form input[type="email"]:focus {border: 2px solid #696969}
+                        
+                        .content-wrapper .posts article .contact-form input[type="submit"] {
+                            font: 16px/26px Verdana, Tahoma, Arial, Helvetica, sans-serif;
+                            color: #696969;
+                            cursor: pointer
+                        }
+                        
+                .content-wrapper .pagination {margin: 0 40px 40px 40px}
+                
+                    .content-wrapper .pagination ul {text-align: center}
+                
+                    .content-wrapper .pagination li {
+                        display: inline;
+                        margin: 0 5px
+                    }
+                    
+            #comments {background: #fff}
+            
+                #comments header h3 {margin: 45px 0 40px 40px}
+                
+                #comments article {
+                    margin: 40px;
+                    border-bottom: 1px solid #696969
+                }
+                
+                    #comments article header h5 {margin-bottom: 30px}
+                    
+                    #comments article p {margin-left: 55px}
+                    
+                    #comments article blockquote {margin-left: 55px}
+                    
+                    #comments article .code {margin-left: 55px}
+                    
+            #comment-form {
+                margin: 40px;
+                background: #fff
+            }
+            
+                #comment-form header {margin-bottom: 30px}
+                
+                #comment-form div {margin: 10px 0}
+                
+                    #comment-form form textarea {
+                        padding: 5px;
+                        font: 16px/26px Verdana, Tahoma, Arial, Helvetica, sans-serif;
+                        color: #696969;
+                        border: 1px solid #4682B4;
+                        border-radius: 10px
+                    }
+                    
+                        #comment-form form textarea:focus {border: 2px solid #696969}
+                    
+                    #comment-form form input[type="text"],
+                    #comment-form form input[type="email"],
+                    #comment-form form input[type="url"] {
+                        width: 177px;
+                        padding: 5px;
+                        font: 16px/26px Verdana, Tahoma, Arial, Helvetica, sans-serif;
+                        color: #696969;
+                        border: 1px solid #4682B4;
+                        border-radius: 10px
+                    }
+                    
+                        #comment-form form input[type="text"]:focus,
+                        #comment-form form input[type="email"]:focus,
+                        #comment-form form input[type="url"]:focus {border: 2px solid #696969}
+                    
+                    #comment-form form input[type="submit"] {
+                        font: 16px/26px Verdana, Tahoma, Arial, Helvetica, sans-serif;
+                        color: #696969;
+                        cursor: pointer
+                    }
+                    
+                    .bb-editor-bar a {
+                        padding: 3px 5px;
+                        text-decoration: none;
+                        background: #eee;
+                        border: 1px solid #ccc
+                    }
+                        
+                        .bb-editor-bar a:hover {
+                            padding: 3px 5px;
+                            text-decoration: none;
+                            background: #e1e1e1;
+                            border: 1px solid #ccc
+                        }
+        
+        /**
+         * Sidebar
+         * 
+         * @section sidebar
+         */
+        aside {
+            width: 300px;
+            float: right;
+            background: #fff
+        }
+        
+            aside section {margin: 25px 40px}
+            
+            aside section:first-child {margin-top: 40px}
+            
+                aside section header {margin: 15px 0}
+                
+                aside section li {margin: 5px 0}
+        
+        /**
+         * Footer
+         * 
+         * @section footer
+         */
+        footer {
+            width: 960px;
+            padding: 5px 0;
+            font-size: 14px;
+            text-align: center;
+            background: #fff
+        }
+        
+            footer .copyright {
+                float: left;
+                padding-left: 40px
+            }
+            
+            footer .credits {
+                float: right;
+                padding-right: 40px
+            }

@@ -1,3 +1,7 @@
 homepage:
     pattern:  /index
-    defaults: { _controller: ProjectsBlogBundle:Default:index }
+    defaults: { _controller: ProjectsBlogBundle:Blog:index }
+
+post:
+    pattern:  /post/{slug}
+    defaults: { _controller: ProjectsBlogBundle:Blog:post }

@@ -13,7 +13,7 @@ namespace Projects\BlogBundle\Entity;
 /**
  * Projects\BlogBundle\Entity\Post
  * 
- * @orm:Entity
+ * @orm:Entity(repositoryClass="Projects\BlogBundle\Repository\PostRepository")
  * @orm:Table(name="sfb_post")
  */
 class Post

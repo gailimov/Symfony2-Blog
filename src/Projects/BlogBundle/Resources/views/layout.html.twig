@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]>
+        <script>
+            document.createElement('header');
+            document.createElement('nav');
+            document.createElement('section');
+            document.createElement('article');
+            document.createElement('aside');
+            document.createElement('footer');
+        </script>
+    <![endif]-->
+    <link rel="stylesheet" href="{{ asset('bundles/projectsblog/css/style.css') }}" media="all" />
+    <script src="{{ asset('bundles/projectsblog/js/jquery-1.6.min.js') }}"></script>
+    <script src="{{ asset('bundles/projectsblog/js/modernizr.js') }}"></script>
+    <script src="{{ asset('bundles/projectsblog/js/script.js') }}"></script>
+    <title>{% block title %}{{mainTitle}}{% endblock %}</title>
+</head>
+<body>
+    <div id="wrapper" class="border-rounded">
+        <div class="head-wrapper">
+            <header class="logo border-rounded">
+                <h1><a href="/sfblog/web/app_dev.php/index" rel="home" title="На главную">Some very long blog's title</a></h1>
+            </header>
+            <nav class="border-rounded">
+                <ul>
+                    <li><a href="#"><img src="{{ asset('bundles/projectsblog/img/icons/rss.png') }}" class="icons" alt="RSS" title="RSS" /></a></li>
+                    <li><a href="#"><img src="{{ asset('bundles/projectsblog/img/icons/twitter.png') }}" class="icons" alt="twitter" title="twitter" /></a></li>
+                </ul>
+                <ul class="nav">
+                    <li><a href="#">Блог</a></li>
+                    <li><a href="#">О блоге</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </nav>
+        </div> <!-- .head-wrapper -->
+        <section class="content-wrapper">
+            {% block content %}{% endblock %}
+        </section> <!-- .content-wrapper -->
+        <aside>
+            <section>
+                <header>
+                    <h4>Категории</h4>
+                </header>
+                <ul>
+                    <li><a href="#">PHP</a> <sup>13</sup></li>
+                    <li><a href="#">Symfony</a> <sup>11</sup></li>
+                    <li><a href="#">MySQL</a> <sup>10</sup></li>
+                </ul>
+            </section>
+            <section>
+                <header>
+                    <h4>Блогролл</h4>
+                </header>
+                <ul>
+                    <li><a href="http://www.zeroxor.ru" rel="friend" title="Блог ZeroXor'а">Блог веб-фрилансера</a></li>
+                    <li><a href="http://it-guest.net.ru" rel="friend" title="В гостях как дома, только не трогайте компьютер">IT - гость</a></li>
+                </ul>
+            </section>
+        </aside>
+        <footer class="clear border-rounded">
+            <div class="copyright">
+                <p>&copy; &laquo;Blog name&raquo; 2011</p>
+            </div>
+            <div class="credits">
+                <p>
+                    <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" rel="license"><img src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" alt="Creative Commons License" title="This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License" /></a>
+                    <a href="http://symfony.com/"><img src="{{ asset('bundles/projectsblog/img/symfony-logo.png') }}" title="Работает на Symfony2" alt="Работает на Symfony2" /></a>
+                    <img src="{{ asset('bundles/projectsblog/img/HTML5_Logo_32.png') }}" title="HTML 5" alt="HTML 5" />
+                </p>
+            </div>
+            <div class="clear"></div>
+        </footer>
+        <a href="#" class="scrollTop" style="display: none"></a>
+    </div> <!-- #wrapper -->
+</body>
+</html>

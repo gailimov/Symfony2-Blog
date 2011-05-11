@@ -13,3 +13,6 @@ _demo:
     
 homepage:
     resource: "@ProjectsBlogBundle/Resources/config/routing.yml"
+
+post:
+    resource: "@ProjectsBlogBundle/Resources/config/routing.yml"

@@ -1,0 +1,16 @@
+{% extends 'ProjectsBlogBundle::layout.html.twig' %}
+{% block content %}
+    <section class="posts">
+    {% autoescape false %}
+        <article>
+            <header>
+                <h2><a href="#" title="Посмотреть все посты в категории &laquo;Symfony&raquo;">Symfony</a> &rarr; {{title}}</h2>
+            </header>
+            <div class="left vcard">Автор: <a href="#" class="fn" title="Посмотреть все посты этого автора">%username%</a></div>
+            <div class="right">{{createdAt|date}}</div>
+            <div class="clear"></div>
+            {{post}}
+        </article>
+    {% endautoescape %}
+    </section> <!-- .posts -->
+{% endblock %}

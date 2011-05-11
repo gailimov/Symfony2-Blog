@@ -1,0 +1,26 @@
+{% extends 'ProjectsBlogBundle::layout.html.twig' %}
+{% block content %}
+    <section class="posts">
+    {% for post in posts %}
+        {% autoescape false %}
+        <article>
+            <header>
+                <h2><a href="#" title="Посмотреть все посты в категории &laquo;Symfony&raquo;">Symfony</a> &rarr; <a href="{{ path('post', {'slug': post.slug}) }}">{{post.title}}</a></h2>
+            </header>
+            <div class="left vcard">Автор: <a href="#" class="fn" title="Посмотреть все посты этого автора">%username%</a></div>
+            <div class="right">{{post.createdAt|date}}</div>
+            <div class="clear"></div>
+            <p>{{post.post}}</p>
+            <div class="left"><a href="post.html#comments" title="Посмотреть все комментарии">22 комментария</a></div>
+            <div class="right"><a href="{{ path('post', {'slug': post.slug}) }}">Продолжение</a> &rarr;</div>
+            <div class="clear"></div>
+        </article>
+        {% endautoescape %}
+    {% endfor %}
+    </section> <!-- .posts -->
+    <section class="pagination">
+        <div class="left">&larr; <a href="#">Новые посты</a></div>
+        <div class="right"><a href="#">Старые посты</a> &rarr;</div>
+        <div class="clear"></div>
+    </section> <!-- .pagination -->
+{% endblock %}
