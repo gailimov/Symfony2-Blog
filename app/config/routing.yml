@@ -16,3 +16,9 @@ homepage:
 
 post:
     resource: "@ProjectsBlogBundle/Resources/config/routing.yml"
+
+category:
+    resource: "@ProjectsBlogBundle/Resources/config/routing.yml"
+
+page:
+    resource: "@ProjectsBlogBundle/Resources/config/routing.yml"

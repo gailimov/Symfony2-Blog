@@ -32,6 +32,7 @@ class PostRepository extends EntityRepository
     {
         $query = "SELECT p
                   FROM ProjectsBlogBundle:Post p
+                  WHERE p.postType = 'post'
                   ORDER BY p.createdAt DESC, p.id DESC";
 
         return $this->getEntityManager()->createQuery($query)
@@ -50,7 +51,65 @@ class PostRepository extends EntityRepository
     {
         $query = "SELECT p
                   FROM ProjectsBlogBundle:Post p
-                  WHERE p.slug = ?1";
+                  WHERE p.postType = 'post' AND p.slug = ?1";
+
+        try {
+            return $this->getEntityManager()->createQuery($query)
+                                            ->setParameter(1, $slug)
+                                            ->getSingleResult();
+        } catch(NoResultException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get post by ID of category
+     * 
+     * @param  integer $categoryid ID of category
+     * @return array
+     */
+    public function getPostByCategoryId($categoryId)
+    {                  
+        $query = "SELECT p
+                  FROM ProjectsBlogBundle:Post p
+                  WHERE p.postType = 'post' AND p.categoryId = ?1
+                  ORDER BY p.createdAt DESC, p.id DESC";
+
+        try {
+            return $this->getEntityManager()->createQuery($query)
+                                            ->setParameter(1, $categoryId)
+                                            ->getResult();
+        } catch(NoResultException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get all pages
+     * 
+     * @return array
+     */
+    public function getAllPages()
+    {
+        $query = "SELECT p
+                  FROM ProjectsBlogBundle:Post p
+                  WHERE p.postType = 'page'";
+
+        return $this->getEntityManager()->createQuery($query)
+                                        ->getResult();
+    }
+
+    /**
+     * Get page by slug
+     * 
+     * @param  string $slug Slug
+     * @return array
+     */
+    public function getPageBySlug($slug)
+    {
+        $query = "SELECT p
+                  FROM ProjectsBlogBundle:Post p
+                  WHERE p.postType = 'page' AND p.slug = ?1";
 
         try {
             return $this->getEntityManager()->createQuery($query)

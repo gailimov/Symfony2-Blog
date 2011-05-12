@@ -5,3 +5,11 @@ homepage:
 post:
     pattern:  /post/{slug}
     defaults: { _controller: ProjectsBlogBundle:Blog:post }
+
+category:
+    pattern:  /category/{slug}
+    defaults: { _controller: ProjectsBlogBundle:Blog:category }
+
+page:
+    pattern:  /page/{slug}
+    defaults: { _controller: ProjectsBlogBundle:Blog:page }

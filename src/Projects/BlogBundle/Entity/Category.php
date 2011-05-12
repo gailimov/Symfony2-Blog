@@ -13,7 +13,7 @@ namespace Projects\BlogBundle\Entity;
 /**
  * Projects\BlogBundle\Entity\Category
  * 
- * @orm:Entity
+ * @orm:Entity(repositoryClass="Projects\BlogBundle\Repository\CategoryRepository")
  * @orm:Table(name="sfb_category")
  */
 class Category

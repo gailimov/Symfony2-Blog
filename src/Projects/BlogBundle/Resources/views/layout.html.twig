@@ -12,6 +12,7 @@
             document.createElement('footer');
         </script>
     <![endif]-->
+    <meta name="description" content="{% block description %}{{description}}{% endblock %}" />
     <link rel="stylesheet" href="{{ asset('bundles/projectsblog/css/style.css') }}" media="all" />
     <script src="{{ asset('bundles/projectsblog/js/jquery-1.6.min.js') }}"></script>
     <script src="{{ asset('bundles/projectsblog/js/modernizr.js') }}"></script>
@@ -30,9 +31,9 @@
                     <li><a href="#"><img src="{{ asset('bundles/projectsblog/img/icons/twitter.png') }}" class="icons" alt="twitter" title="twitter" /></a></li>
                 </ul>
                 <ul class="nav">
-                    <li><a href="#">Блог</a></li>
-                    <li><a href="#">О блоге</a></li>
-                    <li><a href="#">Контакты</a></li>
+                {% for page in pages %}
+                    <li><a href="{{ path('page', {'slug': page.slug}) }}">{{page.title}}</a></li>
+                {% endfor %}
                 </ul>
             </nav>
         </div> <!-- .head-wrapper -->
@@ -45,9 +46,9 @@
                     <h4>Категории</h4>
                 </header>
                 <ul>
-                    <li><a href="#">PHP</a> <sup>13</sup></li>
-                    <li><a href="#">Symfony</a> <sup>11</sup></li>
-                    <li><a href="#">MySQL</a> <sup>10</sup></li>
+                {% for category in categories %}
+                    <li><a href="{{ path('category', {'slug': category.slug}) }}">{{category.title}}</a> <sup>{{category.counter}}</sup></li>
+                {% endfor %}
                 </ul>
             </section>
             <section>
