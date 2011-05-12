@@ -20,5 +20,8 @@ post:
 category:
     resource: "@ProjectsBlogBundle/Resources/config/routing.yml"
 
+author:
+    resource: "@ProjectsBlogBundle/Resources/config/routing.yml"
+
 page:
     resource: "@ProjectsBlogBundle/Resources/config/routing.yml"

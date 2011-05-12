@@ -27,9 +27,12 @@ class CategoryRepository extends EntityRepository
      */
     public function getAll()
     {
-        $query = "SELECT c.slug, c.title, c.description, COUNT(c.id) AS counter
+        /*$query = "SELECT c.id, c.slug, c.title, c.description, COUNT(c.id) AS counter
                   FROM ProjectsBlogBundle:Category c, ProjectsBlogBundle:Post p
-                  WHERE c.id = p.categoryId";
+                  WHERE c.id = p.categoryId";*/
+
+        $query = "SELECT c
+                  FROM ProjectsBlogBundle:Category c";
 
         return $this->getEntityManager()->createQuery($query)
                                         ->getResult();

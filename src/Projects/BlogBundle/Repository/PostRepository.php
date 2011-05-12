@@ -65,7 +65,7 @@ class PostRepository extends EntityRepository
     /**
      * Get post by ID of category
      * 
-     * @param  integer $categoryid ID of category
+     * @param  integer $categoryId ID of category
      * @return array
      */
     public function getPostByCategoryId($categoryId)
@@ -78,6 +78,28 @@ class PostRepository extends EntityRepository
         try {
             return $this->getEntityManager()->createQuery($query)
                                             ->setParameter(1, $categoryId)
+                                            ->getResult();
+        } catch(NoResultException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get post by ID of user
+     * 
+     * @param  integer $userId ID of user
+     * @return array
+     */
+    public function getPostByUserId($userId)
+    {                  
+        $query = "SELECT p
+                  FROM ProjectsBlogBundle:Post p
+                  WHERE p.postType = 'post' AND p.userId = ?1
+                  ORDER BY p.createdAt DESC, p.id DESC";
+
+        try {
+            return $this->getEntityManager()->createQuery($query)
+                                            ->setParameter(1, $userId)
                                             ->getResult();
         } catch(NoResultException $e) {
             return null;

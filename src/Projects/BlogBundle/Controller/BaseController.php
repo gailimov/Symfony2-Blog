@@ -31,9 +31,17 @@ class BaseController extends Controller
      */
     protected $mainTitle;
 
+    /**
+     * Description
+     * 
+     * @var string
+     */
+    protected $description;
+
     public function __construct()
     {
-        $this->mainTitle = 'Блог';
+        $this->mainTitle   = 'Блог';
+        $this->description = 'Тест';
     }
 
     /**

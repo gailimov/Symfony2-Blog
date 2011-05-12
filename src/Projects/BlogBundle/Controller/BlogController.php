@@ -29,7 +29,6 @@ class BlogController extends BaseController
     {
         $em = $this->getEm();
 
-        $description = 'Тест';
         $pages      = $em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
         $categories = $em->getRepository('ProjectsBlogBundle:Category')->getAll();
 
@@ -37,7 +36,7 @@ class BlogController extends BaseController
 
         $data = array(
             'mainTitle'   => $this->mainTitle,
-            'description' => $description,
+            'description' => $this->description,
             'pages'       => $pages,
             'categories'  => $categories,
             'posts'       => $posts);
@@ -66,13 +65,15 @@ class BlogController extends BaseController
         $mainTitle = $post->getTitle() . ' :: ' . $this->mainTitle;
 
         $data = array(
-            'mainTitle'   => $mainTitle,
-            'pages'       => $pages,
-            'categories'  => $categories,
-            'title'       => $post->getTitle(),
-            'description' => $post->getDescription(),
-            'post'        => $post->getPost(),
-            'createdAt'   => $post->getCreatedAt());
+            'mainTitle'      => $mainTitle,
+            'pages'          => $pages,
+            'categories'     => $categories,
+            'postTitle'      => $post->getTitle(),
+            'description'    => $post->getDescription(),
+            'postCategoryId' => $post->getCategoryId(),
+            'postUserId'     => $post->getUserId(),
+            'post'           => $post->getPost(),
+            'createdAt'      => $post->getCreatedAt());
 
         return $this->render('ProjectsBlogBundle:Blog:post.html.twig', $data);
     }
@@ -108,6 +109,44 @@ class BlogController extends BaseController
         $data = array(
             'mainTitle'   => $mainTitle,
             'description' => $category->getDescription(),
+            'pages'       => $pages,
+            'categories'  => $categories,
+            'posts'       => $posts);
+
+        return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $data);
+    }
+
+    /**
+     * Posts by author page
+     * 
+     * @param string $author Author
+     */
+    public function authorAction($author)
+    {
+        $em = $this->getEm();
+
+        $pages      = $em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
+        $categories = $em->getRepository('ProjectsBlogBundle:Category')->getAll();
+
+        $author = $em->getRepository('ProjectsBlogBundle:User')->getByUsername($author);
+
+        if (!$author) {
+            throw new NotFoundHttpException('Author not found');
+        }
+
+        $userId = $author->getId();
+
+        $posts = $em->getRepository('ProjectsBlogBundle:Post')->getPostByUserId($userId);
+
+        if (!$posts) {
+            throw new NotFoundHttpException('Posts not found');
+        }
+
+        $mainTitle = $author->getUsername() . ' :: ' . $this->mainTitle;
+
+        $data = array(
+            'mainTitle'   => $mainTitle,
+            'description' => $this->description,
             'pages'       => $pages,
             'categories'  => $categories,
             'posts'       => $posts);

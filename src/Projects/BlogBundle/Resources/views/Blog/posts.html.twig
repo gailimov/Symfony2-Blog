@@ -5,10 +5,10 @@
         {% autoescape false %}
         <article>
             <header>
-                <h2><a href="#" title="Посмотреть все посты в категории &laquo;Symfony&raquo;">Symfony</a> &rarr; <a href="{{ path('post', {'slug': post.slug}) }}">{{post.title}}</a></h2>
+                <h2><a href="{{ path('category', {'slug': post.categoryId.slug}) }}" title="Посмотреть все посты в категории &laquo;{{post.categoryId.title}}&raquo;">{{post.categoryId.title}}</a> &rarr; <a href="{{ path('post', {'slug': post.slug}) }}">{{post.title}}</a></h2>
             </header>
-            <div class="left vcard">Автор: <a href="#" class="fn" title="Посмотреть все посты этого автора">%username%</a></div>
-            <div class="right">{{post.createdAt|date}}</div>
+            <div class="left vcard">Автор: <a href="{{ path('author', {'author': post.userId.username}) }}" class="fn" title="Посмотреть все посты этого автора">{{post.userId.username}}</a></div>
+            <div class="right">{{post.createdAt|date('d M Y')}} г.</div>
             <div class="clear"></div>
             <p>{{post.post}}</p>
             <div class="left"><a href="post.html#comments" title="Посмотреть все комментарии">22 комментария</a></div>
