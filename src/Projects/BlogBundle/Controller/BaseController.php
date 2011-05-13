@@ -25,11 +25,18 @@ class BaseController extends Controller
     protected $em;
 
     /**
-     * Main title
+     * Configuration
+     * 
+     * @var array
+     */
+    protected $config = array('titleSeparator' => '::');
+
+    /**
+     * Title
      * 
      * @var string
      */
-    protected $mainTitle;
+    protected $title;
 
     /**
      * Description
@@ -38,10 +45,33 @@ class BaseController extends Controller
      */
     protected $description;
 
-    public function __construct()
+    /**
+     * Pages
+     * 
+     * @var array
+     */
+    protected $pages;
+
+    /**
+     * Categories
+     * 
+     * @var array
+     */
+    protected $categories;
+
+    /**
+     * Initialize
+     * 
+     * @return void
+     */
+    protected function init()
     {
-        $this->mainTitle   = 'Блог';
-        $this->description = 'Тест';
+        $this->em          = $this->getEm();
+        $config            = $this->em->getRepository('ProjectsBlogBundle:Config')->get();
+        $this->title       = $config->getTitle();
+        $this->description = $config->getDescription();
+        $this->pages       = $this->em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
+        $this->categories  = $this->em->getRepository('ProjectsBlogBundle:Category')->getAll();
     }
 
     /**

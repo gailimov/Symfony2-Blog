@@ -17,28 +17,21 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class BlogController extends BaseController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Home page
      */
     public function indexAction()
     {
-        $em = $this->getEm();
+        parent::init();
 
-        $pages      = $em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
-        $categories = $em->getRepository('ProjectsBlogBundle:Category')->getAll();
-
-        $posts = $em->getRepository('ProjectsBlogBundle:Post')->getAllPosts(0, 10);
+        $posts = $this->em->getRepository('ProjectsBlogBundle:Post')->getAllPosts(0, 10);
 
         $data = array(
-            'mainTitle'   => $this->mainTitle,
+            'mainTitle'   => $this->title,
+            'title'       => $this->title,
             'description' => $this->description,
-            'pages'       => $pages,
-            'categories'  => $categories,
+            'pages'       => $this->pages,
+            'categories'  => $this->categories,
             'posts'       => $posts);
 
         return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $data);
@@ -51,23 +44,21 @@ class BlogController extends BaseController
      */
     public function postAction($slug)
     {
-        $em = $this->getEm();
+        parent::init();
 
-        $pages      = $em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
-        $categories = $em->getRepository('ProjectsBlogBundle:Category')->getAll();
-
-        $post = $em->getRepository('ProjectsBlogBundle:Post')->getPostBySlug($slug);
+        $post = $this->em->getRepository('ProjectsBlogBundle:Post')->getPostBySlug($slug);
 
         if (!$post) {
             throw new NotFoundHttpException('Not found');
         }
 
-        $mainTitle = $post->getTitle() . ' :: ' . $this->mainTitle;
+        $mainTitle = $post->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
 
         $data = array(
             'mainTitle'      => $mainTitle,
-            'pages'          => $pages,
-            'categories'     => $categories,
+            'title'          => $this->title,
+            'pages'          => $this->pages,
+            'categories'     => $this->categories,
             'postTitle'      => $post->getTitle(),
             'description'    => $post->getDescription(),
             'postCategoryId' => $post->getCategoryId(),
@@ -85,12 +76,9 @@ class BlogController extends BaseController
      */
     public function categoryAction($slug)
     {
-        $em = $this->getEm();
+        parent::init();
 
-        $pages      = $em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
-        $categories = $em->getRepository('ProjectsBlogBundle:Category')->getAll();
-
-        $category = $em->getRepository('ProjectsBlogBundle:Category')->getBySlug($slug);
+        $category = $this->em->getRepository('ProjectsBlogBundle:Category')->getBySlug($slug);
 
         if (!$category) {
             throw new NotFoundHttpException('Category not found');
@@ -98,19 +86,20 @@ class BlogController extends BaseController
 
         $categoryId = $category->getId();
 
-        $posts = $em->getRepository('ProjectsBlogBundle:Post')->getPostByCategoryId($categoryId);
+        $posts = $this->em->getRepository('ProjectsBlogBundle:Post')->getPostByCategoryId($categoryId);
 
         if (!$posts) {
             throw new NotFoundHttpException('Posts not found');
         }
 
-        $mainTitle = $category->getTitle() . ' :: ' . $this->mainTitle;
+        $mainTitle = $category->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
 
         $data = array(
             'mainTitle'   => $mainTitle,
+            'title'       => $this->title,
             'description' => $category->getDescription(),
-            'pages'       => $pages,
-            'categories'  => $categories,
+            'pages'       => $this->pages,
+            'categories'  => $this->categories,
             'posts'       => $posts);
 
         return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $data);
@@ -123,12 +112,9 @@ class BlogController extends BaseController
      */
     public function authorAction($author)
     {
-        $em = $this->getEm();
+        parent::init();
 
-        $pages      = $em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
-        $categories = $em->getRepository('ProjectsBlogBundle:Category')->getAll();
-
-        $author = $em->getRepository('ProjectsBlogBundle:User')->getByUsername($author);
+        $author = $this->em->getRepository('ProjectsBlogBundle:User')->getByUsername($author);
 
         if (!$author) {
             throw new NotFoundHttpException('Author not found');
@@ -136,19 +122,20 @@ class BlogController extends BaseController
 
         $userId = $author->getId();
 
-        $posts = $em->getRepository('ProjectsBlogBundle:Post')->getPostByUserId($userId);
+        $posts = $this->em->getRepository('ProjectsBlogBundle:Post')->getPostByUserId($userId);
 
         if (!$posts) {
             throw new NotFoundHttpException('Posts not found');
         }
 
-        $mainTitle = $author->getUsername() . ' :: ' . $this->mainTitle;
+        $mainTitle = $author->getUsername() . ' :: ' . $this->title;
 
         $data = array(
             'mainTitle'   => $mainTitle,
+            'title'       => $this->title,
             'description' => $this->description,
-            'pages'       => $pages,
-            'categories'  => $categories,
+            'pages'       => $this->pages,
+            'categories'  => $this->categories,
             'posts'       => $posts);
 
         return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $data);
@@ -161,24 +148,22 @@ class BlogController extends BaseController
      */
     public function pageAction($slug)
     {
-        $em = $this->getEm();
+        parent::init();
 
-        $pages      = $em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
-        $categories = $em->getRepository('ProjectsBlogBundle:Category')->getAll();
-
-        $page = $em->getRepository('ProjectsBlogBundle:Post')->getPageBySlug($slug);
+        $page = $this->em->getRepository('ProjectsBlogBundle:Post')->getPageBySlug($slug);
 
         if (!$page) {
             throw new NotFoundHttpException('Not found');
         }
 
-        $mainTitle = $page->getTitle() . ' :: ' . $this->mainTitle;
+        $mainTitle = $page->getTitle() . ' :: ' . $this->title;
 
         $data = array(
             'mainTitle'   => $mainTitle,
-            'pages'       => $pages,
-            'categories'  => $categories,
-            'title'       => $page->getTitle(),
+            'title'       => $this->title,
+            'pages'       => $this->pages,
+            'categories'  => $this->categories,
+            'pageTitle'   => $page->getTitle(),
             'description' => $page->getDescription(),
             'post'        => $page->getPost());
 

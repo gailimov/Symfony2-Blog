@@ -13,7 +13,7 @@ namespace Projects\BlogBundle\Entity;
 /**
  * Projects\BlogBundle\Entity\Config
  * 
- * @orm:Entity
+ * @orm:Entity(repositoryClass="Projects\BlogBundle\Repository\ConfigRepository")
  * @orm:Table(name="sfb_config")
  */
 class Config

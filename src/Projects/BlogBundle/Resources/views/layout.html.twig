@@ -23,7 +23,7 @@
     <div id="wrapper" class="border-rounded">
         <div class="head-wrapper">
             <header class="logo border-rounded">
-                <h1><a href="/sfblog/web/app_dev.php/index" rel="home" title="На главную">Some very long blog's title</a></h1>
+                <h1><a href="/sfblog/web/app_dev.php/index" rel="home" title="На главную">{{title}}</a></h1>
             </header>
             <nav class="border-rounded">
                 <ul>
@@ -63,7 +63,7 @@
         </aside>
         <footer class="clear border-rounded">
             <div class="copyright">
-                <p>&copy; &laquo;Blog name&raquo; 2011</p>
+                <p>&copy; &laquo;{{title}}&raquo; {{'now'|date('Y')}}</p>
             </div>
             <div class="credits">
                 <p>
