@@ -11,6 +11,7 @@
 namespace Projects\BlogBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Projects\BlogBundle\Entity\Comment;
 
 /**
  * Blog controller
@@ -46,11 +47,62 @@ class BlogController extends BaseController
     {
         parent::init();
 
+        // Handling of comments
+        // TODO: Доделать
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $postId         = $request->request->get('postId');
+            $author         = $request->request->get('cauthor');
+            $email          = $request->request->get('cemail');
+            $url            = $request->request->get('curl');
+            $commentContent = $request->request->get('ccomment');
+            $fakeEmail      = $request->request->get('email');
+
+            // Antispam :)
+            if (!empty($fakeEmail)) {
+                die('Spam detected');
+            }
+
+            if ($author == 'Представьтесь *') {
+                $author = '';
+            }
+            if ($email == 'Email *') {
+                $email = '';
+            }
+            if ($url == 'URL') {
+                $url = '';
+            }
+
+            if ($this->commentsModerated == 0) {
+                $approved = 1;
+            } else {
+                $approved = 0;
+            }
+
+            $comment = new Comment();
+            $comment->setPostId($postId);
+            $comment->setAuthor($author);
+            $comment->setEmail($email);
+            $comment->setUrl($url);
+            $comment->setComment($commentContent);
+            $comment->setCreatedAt(date('Y-m-d H-i-s'));
+            $comment->setIp($request->getClientIp());
+            $comment->setUserAgent($_SERVER['HTTP_USER_AGENT']);
+            $comment->setApproved($approved);
+
+            $this->em->persist($comment);
+            $this->em->flush();
+            
+            return $this->redirect($this->generateUrl('post', array('slug' => $slug)));
+        }
+
         $post = $this->em->getRepository('ProjectsBlogBundle:Post')->getPostBySlug($slug);
 
         if (!$post) {
             throw new NotFoundHttpException('Not found');
         }
+
+        $comments = $this->em->getRepository('ProjectsBlogBundle:Comment')->getByPostId($post->getId());
 
         $mainTitle = $post->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
 
@@ -59,12 +111,15 @@ class BlogController extends BaseController
             'title'          => $this->title,
             'pages'          => $this->pages,
             'categories'     => $this->categories,
+            'postId'         => $post->getId(),
+            'postSlug'       => $post->getSlug(),
             'postTitle'      => $post->getTitle(),
             'description'    => $post->getDescription(),
             'postCategoryId' => $post->getCategoryId(),
             'postUserId'     => $post->getUserId(),
             'post'           => $post->getPost(),
-            'createdAt'      => $post->getCreatedAt());
+            'createdAt'      => $post->getCreatedAt(),
+            'comments'       => $comments);
 
         return $this->render('ProjectsBlogBundle:Blog:post.html.twig', $data);
     }
@@ -128,7 +183,7 @@ class BlogController extends BaseController
             throw new NotFoundHttpException('Posts not found');
         }
 
-        $mainTitle = $author->getUsername() . ' :: ' . $this->title;
+        $mainTitle = $author->getUsername() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
 
         $data = array(
             'mainTitle'   => $mainTitle,
@@ -156,7 +211,7 @@ class BlogController extends BaseController
             throw new NotFoundHttpException('Not found');
         }
 
-        $mainTitle = $page->getTitle() . ' :: ' . $this->title;
+        $mainTitle = $page->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
 
         $data = array(
             'mainTitle'   => $mainTitle,

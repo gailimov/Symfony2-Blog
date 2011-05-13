@@ -13,4 +13,58 @@
         </article>
     {% endautoescape %}
     </section> <!-- .posts -->
+    <section id="comments">
+        <header>
+            <h3>Комментарии <sup><a href="#" title="Подписаться на RSS-ленту комментариев к этому посту">RSS</a></sup></h3>
+        </header>
+    {% for comment in comments %}
+        <article id="comment-{{comment.id}}">
+            <header class="vcard">
+            {% if comment.url %}
+                <h5><a href="#comment-{{comment.id}}" title="Ссылка на комментарий">#{{loop.index}}</a> <a href="{{comment.url}}" class="url" title="Перейти на блог автора"><span class="fn">{{comment.author}}</span></a></h5>
+            {% else %}
+                <h5><a href="#comment-{{comment.id}}" title="Ссылка на комментарий">#{{loop.index}}</a> <span class="fn">{{comment.author}}</span></h5>
+            {% endif %}
+            </header>
+            <img src="#" class="gravatar" alt="{{comment.author}}" title="{{comment.author}}" />
+            <p>{{comment.comment}}</p>
+            <p class="small">{{comment.createdAt|date('d M Y в H:i')}}</p>
+            <p class="reply"><a href="#" onclick="javascript:reply('[reply#comment-{{comment.id}}]{{comment.author}}[/reply]');return false;" class="ajax">Ответить</a></p>
+        </article>
+    {% else %}
+        <article>
+            <p>Комментариев пока нет</p>
+        </article>
+    {% endfor %}
+    </section> <!-- #comments -->
+    <section id="comment-form">
+        <header>
+            <h3>Оставить комментарий:</h3>
+        </header>
+        <div class="error">
+            <div>Необходимо исправить следующие ошибки:</div>
+            <ul>
+                <li>Представиться</li>
+                <li>Ввести email</li>
+            </ul>
+        </div>
+        <div class="bb-editor-bar">
+            <a href="#" onclick="insertBBCode(textarea, 'quote'); return false" title="Вставить цитату">Цитата</a>
+            <a href="#" onclick="insertBBCode(textarea, 'code'); return false" title="Вставить код">Код</a>
+        </div>
+        <form action="{{ path('post', {'slug': postSlug}) }}" method="post">
+            <div><textarea name="ccomment" id="ccomment" cols="69" rows="10" required></textarea></div>
+            <div>
+                <input type="text" name="cauthor" placeholder="Представьтесь *" required />
+                <input type="email" name="cemail" placeholder="Email *" required />
+                <input type="url" name="curl" placeholder="URL" />
+            </div>
+            <div style="display:none"><input type="email" name="email" /></div>
+            <div><input type="hidden" name="postId" value="{{postId}}" /></div>
+            <div>
+                <input type="submit" name="add" value="Добавить комментарий" />
+                <input type="submit" name="preview" value="Предварительный просмотр" />
+            </div>
+        </form>
+    </section> <!-- #comment-form -->
 {% endblock %}

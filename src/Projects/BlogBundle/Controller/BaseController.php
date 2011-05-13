@@ -60,18 +60,26 @@ class BaseController extends Controller
     protected $categories;
 
     /**
+     * Comments moderation status
+     * 
+     * @var integer
+     */
+    protected $commentsModerated;
+
+    /**
      * Initialize
      * 
      * @return void
      */
     protected function init()
     {
-        $this->em          = $this->getEm();
-        $config            = $this->em->getRepository('ProjectsBlogBundle:Config')->get();
-        $this->title       = $config->getTitle();
-        $this->description = $config->getDescription();
-        $this->pages       = $this->em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
-        $this->categories  = $this->em->getRepository('ProjectsBlogBundle:Category')->getAll();
+        $this->em                = $this->getEm();
+        $config                  = $this->em->getRepository('ProjectsBlogBundle:Config')->get();
+        $this->title             = $config->getTitle();
+        $this->description       = $config->getDescription();
+        $this->commentsModerated = $config->getCommentsModerated();
+        $this->pages             = $this->em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
+        $this->categories        = $this->em->getRepository('ProjectsBlogBundle:Category')->getAll();
     }
 
     /**

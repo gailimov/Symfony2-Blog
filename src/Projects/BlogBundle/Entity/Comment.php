@@ -13,7 +13,7 @@ namespace Projects\BlogBundle\Entity;
 /**
  * Projects\BlogBundle\Entity\Comment
  * 
- * @orm:Entity
+ * @orm:Entity(repositoryClass="Projects\BlogBundle\Repository\CommentRepository")
  * @orm:Table(name="sfb_comment")
  */
 class Comment
