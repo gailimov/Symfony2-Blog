@@ -4,12 +4,12 @@
     {% autoescape false %}
         <article>
             <header>
-                <h2><a href="{{ path('category', {'slug': postCategoryId.slug}) }}" title="Посмотреть все посты в категории &laquo;{{postCategoryId.title}}&raquo;">{{postCategoryId.title}}</a> &rarr; {{postTitle}}</h2>
+                <h2><a href="{{ path('category', {'slug': post.categoryId.slug}) }}" title="Посмотреть все посты в категории &laquo;{{post.categoryId.title}}&raquo;">{{post.categoryId.title}}</a> &rarr; {{post.title}}</h2>
             </header>
-            <div class="left vcard">Автор: <a href="{{ path('author', {'author': postUserId.username}) }}" class="fn" title="Посмотреть все посты этого автора">{{postUserId.username}}</a></div>
-            <div class="right">{{createdAt|date('d M Y')}}</div>
+            <div class="left vcard">Автор: <a href="{{ path('author', {'author': post.userId.username}) }}" class="fn" title="Посмотреть все посты этого автора">{{post.userId.username}}</a></div>
+            <div class="right">{{post.createdAt|date('d M Y')}}</div>
             <div class="clear"></div>
-            {{post}}
+            {{post.post}}
         </article>
     {% endautoescape %}
     </section> <!-- .posts -->
@@ -52,7 +52,7 @@
             <a href="#" onclick="insertBBCode(textarea, 'quote'); return false" title="Вставить цитату">Цитата</a>
             <a href="#" onclick="insertBBCode(textarea, 'code'); return false" title="Вставить код">Код</a>
         </div>
-        <form action="{{ path('post', {'slug': postSlug}) }}" method="post">
+        <form action="{{ path('post', {'slug': post.slug}) }}" method="post">
             <div><textarea name="ccomment" id="ccomment" cols="69" rows="10" required></textarea></div>
             <div>
                 <input type="text" name="cauthor" placeholder="Представьтесь *" required />
@@ -60,7 +60,7 @@
                 <input type="url" name="curl" placeholder="URL" />
             </div>
             <div style="display:none"><input type="email" name="email" /></div>
-            <div><input type="hidden" name="postId" value="{{postId}}" /></div>
+            <div><input type="hidden" name="postId" value="{{post.id}}" /></div>
             <div>
                 <input type="submit" name="add" value="Добавить комментарий" />
                 <input type="submit" name="preview" value="Предварительный просмотр" />

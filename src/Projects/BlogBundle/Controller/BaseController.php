@@ -22,7 +22,7 @@ class BaseController extends Controller
      * 
      * @var \Doctrine\ORM\EntityManager
      */
-    protected $em;
+    private $em;
 
     /**
      * Configuration
@@ -69,17 +69,19 @@ class BaseController extends Controller
     /**
      * Initialize
      * 
-     * @return void
+     * @return \Doctrine\ORM\EntityManager
      */
     protected function init()
     {
-        $this->em                = $this->getEm();
-        $config                  = $this->em->getRepository('ProjectsBlogBundle:Config')->get();
+        $em                      = $this->getEm();
+        $config                  = $em->getRepository('ProjectsBlogBundle:Config')->get();
         $this->title             = $config->getTitle();
         $this->description       = $config->getDescription();
         $this->commentsModerated = $config->getCommentsModerated();
-        $this->pages             = $this->em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
-        $this->categories        = $this->em->getRepository('ProjectsBlogBundle:Category')->getAll();
+        $this->pages             = $em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
+        $this->categories        = $em->getRepository('ProjectsBlogBundle:Category')->getAll();
+
+        return $em;
     }
 
     /**
@@ -87,7 +89,7 @@ class BaseController extends Controller
      * 
      * @return \Doctrine\ORM\EntityManager
      */
-    protected function getEm()
+    private function getEm()
     {
         if ($this->em == null) {
             $this->em = $this->get('doctrine.orm.entity_manager');
