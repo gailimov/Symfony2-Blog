@@ -48,7 +48,7 @@ class BlogController extends BaseController
         parent::init();
 
         // Handling of comments
-        // TODO: Доделать
+        // TODO: Прикрутить валидацию
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $postId         = $request->request->get('postId');
@@ -80,19 +80,18 @@ class BlogController extends BaseController
             }
 
             $comment = new Comment();
-            $comment->setPostId($postId);
+            $comment->setPostId($this->em->getReference('ProjectsBlogBundle:Post', $postId));
             $comment->setAuthor($author);
             $comment->setEmail($email);
             $comment->setUrl($url);
             $comment->setComment($commentContent);
-            $comment->setCreatedAt(date('Y-m-d H-i-s'));
             $comment->setIp($request->getClientIp());
             $comment->setUserAgent($_SERVER['HTTP_USER_AGENT']);
             $comment->setApproved($approved);
 
             $this->em->persist($comment);
             $this->em->flush();
-            
+
             return $this->redirect($this->generateUrl('post', array('slug' => $slug)));
         }
 
