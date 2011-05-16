@@ -139,11 +139,13 @@ class Comment
     /**
      * Set author
      *
-     * @param string $author
+     * @param  string $author
+     * @return Projects\BlogBundle\Entity\Comment
      */
     public function setAuthor($author)
     {
         $this->author = $author;
+        return $this;
     }
 
     /**
@@ -159,11 +161,13 @@ class Comment
     /**
      * Set email
      *
-     * @param string $email
+     * @param  string $email
+     * @return Projects\BlogBundle\Entity\Comment
      */
     public function setEmail($email)
     {
         $this->email = $email;
+        return $this;
     }
 
     /**
@@ -179,11 +183,13 @@ class Comment
     /**
      * Set url
      *
-     * @param string $url
+     * @param  string $url
+     * @return Projects\BlogBundle\Entity\Comment
      */
     public function setUrl($url)
     {
         $this->url = $url;
+        return $this;
     }
 
     /**
@@ -199,11 +205,13 @@ class Comment
     /**
      * Set comment
      *
-     * @param text $comment
+     * @param  text $comment
+     * @return Projects\BlogBundle\Entity\Comment
      */
     public function setComment($comment)
     {
         $this->comment = $comment;
+        return $this;
     }
 
     /**
@@ -219,11 +227,13 @@ class Comment
     /**
      * Set createdAt
      *
-     * @param datetime $createdAt
+     * @param  datetime $createdAt
+     * @return Projects\BlogBundle\Entity\Comment
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     /**
@@ -239,11 +249,13 @@ class Comment
     /**
      * Set ip
      *
-     * @param integer $ip
+     * @param  integer $ip
+     * @return Projects\BlogBundle\Entity\Comment
      */
     public function setIp($ip)
     {
         $this->ip = $ip;
+        return $this;
     }
 
     /**
@@ -259,11 +271,13 @@ class Comment
     /**
      * Set userAgent
      *
-     * @param string $userAgent
+     * @param  string $userAgent
+     * @return Projects\BlogBundle\Entity\Comment
      */
     public function setUserAgent($userAgent)
     {
         $this->userAgent = $userAgent;
+        return $this;
     }
 
     /**
@@ -279,11 +293,13 @@ class Comment
     /**
      * Set approved
      *
-     * @param string $approved
+     * @param  string $approved
+     * @return Projects\BlogBundle\Entity\Comment
      */
     public function setApproved($approved)
     {
         $this->approved = $approved;
+        return $this;
     }
 
     /**
@@ -299,11 +315,13 @@ class Comment
     /**
      * Set postId
      *
-     * @param Projects\BlogBundle\Entity\Post $postId
+     * @param  Projects\BlogBundle\Entity\Post $postId
+     * @return Projects\BlogBundle\Entity\Comment
      */
     public function setPostId(\Projects\BlogBundle\Entity\Post $postId)
     {
         $this->postId = $postId;
+        return $this;
     }
 
     /**
@@ -319,11 +337,13 @@ class Comment
     /**
      * Set userId
      *
-     * @param Projects\BlogBundle\Entity\User $userId
+     * @param  Projects\BlogBundle\Entity\User $userId
+     * @return Projects\BlogBundle\Entity\Comment
      */
     public function setUserId(\Projects\BlogBundle\Entity\User $userId)
     {
         $this->userId = $userId;
+        return $this;
     }
 
     /**

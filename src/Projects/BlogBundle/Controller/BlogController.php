@@ -48,14 +48,30 @@ class BlogController extends BaseController
     {
         $em = $this->init();
 
+        // Error message
+        $error = null;
+        // Form field values
+        $commentAuthor  = null;
+        $commentEmail   = null;
+        $commentUrl     = null;
+        $commentContent = null;
+
         // Handling of comments
-        // TODO: Прикрутить валидацию
+        // TODO: Прикрутить Symfony2 валидацию
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            // Adding of comment
-            $this->addComment($em, $request);
-
-            return $this->redirect($this->generateUrl('post', array('slug' => $slug)));
+            // If the comment is valid - add it
+            if ($this->isCommentValid($request)) {
+                $this->addComment($em, $request);
+                return $this->redirect($this->generateUrl('post', array('slug' => $slug)));
+            // ...otherwise - displaying errors
+            } else {
+                $error          = 'Пожалуйста, заполните поля правильно.';
+                $commentAuthor  = $request->request->get('cauthor');
+                $commentEmail   = $request->request->get('cemail');
+                $commentUrl     = $request->request->get('curl');
+                $commentContent = $request->request->get('ccomment');
+            }
         }
 
         $post = $em->getRepository('ProjectsBlogBundle:Post')->getPostBySlug($slug);
@@ -76,7 +92,12 @@ class BlogController extends BaseController
             'links'          => $this->links,
             'description'    => $post->getDescription(),
             'post'           => $post,
-            'comments'       => $comments);
+            'comments'       => $comments,
+            'error'          => $error,
+            'commentAuthor'  => $commentAuthor,
+            'commentEmail'   => $commentEmail,
+            'commentUrl'     => $commentUrl,
+            'commentContent' => $commentContent);
 
         return $this->render('ProjectsBlogBundle:Blog:post.html.twig', $data);
     }
@@ -185,6 +206,29 @@ class BlogController extends BaseController
     }
 
     /**
+     * Comment form validator
+     * 
+     * @param  object  $request Request
+     * @return boolean          true on success, false on fail
+     */
+    private function isCommentValid($request)
+    {
+        $author         = $request->request->get('cauthor');
+        $email          = $request->request->get('cemail');
+        $commentContent = $request->request->get('ccomment');
+
+        if (!empty($author) && !empty($email) && !empty($commentContent)) {
+            if (filter_var($email, FILTER_VALIDATE_EMAIL) !== false) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Add comment
      * 
      * @param  object  $em      \Doctrine\ORM\EntityManager
@@ -222,14 +266,14 @@ class BlogController extends BaseController
         }
 
         $comment = new Comment();
-        $comment->setPostId($em->getReference('ProjectsBlogBundle:Post', $postId));
-        $comment->setAuthor($author);
-        $comment->setEmail($email);
-        $comment->setUrl($url);
-        $comment->setComment($commentContent);
-        $comment->setIp($request->getClientIp());
-        $comment->setUserAgent($_SERVER['HTTP_USER_AGENT']);
-        $comment->setApproved($approved);
+        $comment->setPostId($em->getReference('ProjectsBlogBundle:Post', $postId))
+                ->setAuthor($author)
+                ->setEmail($email)
+                ->setUrl($url)
+                ->setComment($commentContent)
+                ->setIp($request->getClientIp())
+                ->setUserAgent($request->server->get('HTTP_USER_AGENT'))
+                ->setApproved($approved);
 
         $em->persist($comment);
         $em->flush();

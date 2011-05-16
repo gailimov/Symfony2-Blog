@@ -41,23 +41,32 @@
         <header>
             <h3>Оставить комментарий:</h3>
         </header>
-        <div class="error">
-            <div>Необходимо исправить следующие ошибки:</div>
-            <ul>
-                <li>Представиться</li>
-                <li>Ввести email</li>
-            </ul>
-        </div>
+        {% if error != null %}
+            <div class="error">
+                <div>Необходимо исправить следующие ошибки:</div>
+                <ul>
+                    <li>{{error}}</li>
+                </ul>
+            </div>
+            <script>
+                $(function() {
+                    var el = $(".error");
+                    if (el.length) {
+                        $("html, body").animate({scrollTop: $(el).offset().top}, 1000);
+                    }
+                });
+            </script>
+        {% endif %}
         <div class="bb-editor-bar">
             <a href="#" onclick="insertBBCode(textarea, 'quote'); return false" title="Вставить цитату">Цитата</a>
             <a href="#" onclick="insertBBCode(textarea, 'code'); return false" title="Вставить код">Код</a>
         </div>
-        <form action="{{ path('post', {'slug': post.slug}) }}" method="post">
-            <div><textarea name="ccomment" id="ccomment" cols="69" rows="10" required></textarea></div>
+        <form action="{{ path('post', {'slug': post.slug}) }}#comment-form" method="post">
+            <div><textarea name="ccomment" id="ccomment" cols="69" rows="10" required>{{commentContent}}</textarea></div>
             <div>
-                <input type="text" name="cauthor" placeholder="Представьтесь *" required />
-                <input type="email" name="cemail" placeholder="Email *" required />
-                <input type="url" name="curl" placeholder="URL" />
+                <input type="text" name="cauthor" value="{{commentAuthor}}" placeholder="Представьтесь *" required />
+                <input type="email" name="cemail" value="{{commentEmail}}" placeholder="Email *" required />
+                <input type="url" name="curl" value="{{commentUrl}}" placeholder="URL" />
             </div>
             <div style="display:none"><input type="email" name="email" /></div>
             <div><input type="hidden" name="postId" value="{{post.id}}" /></div>
