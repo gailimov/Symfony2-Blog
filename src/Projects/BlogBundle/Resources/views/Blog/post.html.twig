@@ -26,7 +26,7 @@
                 <h5><a href="#comment-{{comment.id}}" title="Ссылка на комментарий">#{{loop.index}}</a> <span class="fn">{{comment.author}}</span></h5>
             {% endif %}
             </header>
-            <img src="#" class="gravatar" alt="{{comment.author}}" title="{{comment.author}}" />
+            <img src="{{ gravatar(comment.email, 50, 'pg', 'monsterid') }}" class="gravatar" alt="{{comment.author}}" title="{{comment.author}}" />
             <p>{{comment.comment}}</p>
             <p class="small">{{comment.createdAt|date('d M Y в H:i')}}</p>
             <p class="reply"><a href="#" onclick="javascript:reply('[reply#comment-{{comment.id}}]{{comment.author}}[/reply]');return false;" class="ajax">Ответить</a></p>

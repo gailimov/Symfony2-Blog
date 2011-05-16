@@ -1,0 +1,3 @@
+[submodule "src/Bundle/GravatarBundle"]
+	path = src/Bundle/GravatarBundle
+	url = git://github.com/ornicar/GravatarBundle.git
