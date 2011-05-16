@@ -33,6 +33,7 @@ class BlogController extends BaseController
             'description' => $this->description,
             'pages'       => $this->pages,
             'categories'  => $this->categories,
+            'links'       => $this->links,
             'posts'       => $posts);
 
         return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $data);
@@ -72,6 +73,7 @@ class BlogController extends BaseController
             'title'          => $this->title,
             'pages'          => $this->pages,
             'categories'     => $this->categories,
+            'links'          => $this->links,
             'description'    => $post->getDescription(),
             'post'           => $post,
             'comments'       => $comments);
@@ -110,6 +112,7 @@ class BlogController extends BaseController
             'description' => $category->getDescription(),
             'pages'       => $this->pages,
             'categories'  => $this->categories,
+            'links'       => $this->links,
             'posts'       => $posts);
 
         return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $data);
@@ -146,6 +149,7 @@ class BlogController extends BaseController
             'description' => $this->description,
             'pages'       => $this->pages,
             'categories'  => $this->categories,
+            'links'       => $this->links,
             'posts'       => $posts);
 
         return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $data);
@@ -173,6 +177,7 @@ class BlogController extends BaseController
             'title'       => $this->title,
             'pages'       => $this->pages,
             'categories'  => $this->categories,
+            'links'       => $this->links,
             'description' => $page->getDescription(),
             'page'        => $page);
 

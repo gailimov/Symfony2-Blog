@@ -46,25 +46,32 @@ class BaseController extends Controller
     protected $description;
 
     /**
+     * Comments moderation status
+     * 
+     * @var integer
+     */
+    protected $commentsModerated;
+
+    /**
      * Pages
      * 
      * @var array
      */
-    protected $pages;
+    protected $pages = array();
 
     /**
      * Categories
      * 
      * @var array
      */
-    protected $categories;
+    protected $categories = array();
 
     /**
-     * Comments moderation status
+     * Links
      * 
-     * @var integer
+     * @var array
      */
-    protected $commentsModerated;
+    protected $links = array();
 
     /**
      * Initialize
@@ -80,6 +87,7 @@ class BaseController extends Controller
         $this->commentsModerated = $config->getCommentsModerated();
         $this->pages             = $em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
         $this->categories        = $em->getRepository('ProjectsBlogBundle:Category')->getAll();
+        $this->links             = $em->getRepository('ProjectsBlogBundle:Link')->findAll();
 
         return $em;
     }

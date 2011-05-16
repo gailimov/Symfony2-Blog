@@ -56,8 +56,9 @@
                     <h4>Блогролл</h4>
                 </header>
                 <ul>
-                    <li><a href="http://www.zeroxor.ru" rel="friend" title="Блог ZeroXor'а">Блог веб-фрилансера</a></li>
-                    <li><a href="http://it-guest.net.ru" rel="friend" title="В гостях как дома, только не трогайте компьютер">IT - гость</a></li>
+                {% for link in links %}
+                    <li><a href="{{link.url}}" rel="friend" title="{{link.description}}">{{link.title}}</a></li>
+                {% endfor %}
                 </ul>
             </section>
         </aside>
