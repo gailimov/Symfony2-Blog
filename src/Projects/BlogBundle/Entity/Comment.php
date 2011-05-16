@@ -55,6 +55,7 @@ class Comment
      * @var string
      * 
      * @orm:Column(type="string", length="50", nullable=true)
+     * @assert:NotBlank(message = "Представиться")
      */
     protected $author;
 
@@ -64,6 +65,8 @@ class Comment
      * @var string
      * 
      * @orm:Column(type="string", length="50", nullable=true)
+     * @assert:NotBlank(message = "Ввести email")
+     * @assert:Email(message = "Ввести правильный email")
      */
     protected $email;
 
@@ -82,6 +85,7 @@ class Comment
      * @var string
      * 
      * @orm:Column(type="text")
+     * @assert:NotBlank(message = "Ввести комментарий")
      */
     protected $comment;
 

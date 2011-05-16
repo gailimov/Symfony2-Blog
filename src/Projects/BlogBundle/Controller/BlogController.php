@@ -49,7 +49,7 @@ class BlogController extends BaseController
         $em = $this->init();
 
         // Error message
-        $error = null;
+        $errors = array();
         // Form field values
         $commentAuthor  = null;
         $commentEmail   = null;
@@ -57,20 +57,25 @@ class BlogController extends BaseController
         $commentContent = null;
 
         // Handling of comments
-        // TODO: Прикрутить Symfony2 валидацию
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
+            $comment = new Comment;
+            $comment->setAuthor($request->request->get('cauthor'))
+                    ->setEmail($request->request->get('cemail'))
+                    ->setComment($request->request->get('ccomment'));
+
+            $errors = $this->container->get('validator')->validate($comment);
+
             // If the comment is valid - add it
-            if ($this->isCommentValid($request)) {
-                $this->addComment($em, $request);
+            if (count($errors) === 0) {
+                $this->addComment($em, $request, $comment);
                 return $this->redirect($this->generateUrl('post', array('slug' => $slug)));
-            // ...otherwise - displaying errors
+            // ...otherwise - filling the form with entered data and displaying errors
             } else {
-                $error          = 'Пожалуйста, заполните поля правильно.';
-                $commentAuthor  = $request->request->get('cauthor');
-                $commentEmail   = $request->request->get('cemail');
-                $commentUrl     = $request->request->get('curl');
-                $commentContent = $request->request->get('ccomment');
+                $commentAuthor  = $request->get('cauthor');
+                $commentEmail   = $request->get('cemail');
+                $commentUrl     = $request->get('curl');
+                $commentContent = $request->get('ccomment');
             }
         }
 
@@ -93,7 +98,7 @@ class BlogController extends BaseController
             'description'    => $post->getDescription(),
             'post'           => $post,
             'comments'       => $comments,
-            'error'          => $error,
+            'errors'         => $errors,
             'commentAuthor'  => $commentAuthor,
             'commentEmail'   => $commentEmail,
             'commentUrl'     => $commentUrl,
@@ -206,57 +211,20 @@ class BlogController extends BaseController
     }
 
     /**
-     * Comment form validator
-     * 
-     * @param  object  $request Request
-     * @return boolean          true on success, false on fail
-     */
-    private function isCommentValid($request)
-    {
-        $author         = $request->request->get('cauthor');
-        $email          = $request->request->get('cemail');
-        $commentContent = $request->request->get('ccomment');
-
-        if (!empty($author) && !empty($email) && !empty($commentContent)) {
-            if (filter_var($email, FILTER_VALIDATE_EMAIL) !== false) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Add comment
      * 
      * @param  object  $em      \Doctrine\ORM\EntityManager
      * @param  object  $request Request
+     * @param  object  $comment Projects\BlogBundle\Entity\Comment
      * @return boolean
      */
-    private function addComment($em, $request)
+    private function addComment($em, $request, $comment)
     {
-        $postId         = $request->request->get('postId');
-        $author         = $request->request->get('cauthor');
-        $email          = $request->request->get('cemail');
-        $url            = $request->request->get('curl');
-        $commentContent = $request->request->get('ccomment');
-        $fakeEmail      = $request->request->get('email');
+        $fakeEmail = $request->request->get('email');
 
         // Antispam :)
         if (!empty($fakeEmail)) {
             die('Spam detected');
-        }
-
-        if ($author == 'Представьтесь *') {
-            $author = '';
-        }
-        if ($email == 'Email *') {
-            $email = '';
-        }
-        if ($url == 'URL') {
-            $url = '';
         }
 
         if ($this->commentsModerated == 0) {
@@ -265,12 +233,8 @@ class BlogController extends BaseController
             $approved = 0;
         }
 
-        $comment = new Comment();
-        $comment->setPostId($em->getReference('ProjectsBlogBundle:Post', $postId))
-                ->setAuthor($author)
-                ->setEmail($email)
-                ->setUrl($url)
-                ->setComment($commentContent)
+        $comment->setPostId($em->getReference('ProjectsBlogBundle:Post', $request->request->get('postId')))
+                ->setUrl($request->request->get('curl'))
                 ->setIp($request->getClientIp())
                 ->setUserAgent($request->server->get('HTTP_USER_AGENT'))
                 ->setApproved($approved);
