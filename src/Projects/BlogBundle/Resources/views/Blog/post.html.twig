@@ -64,11 +64,11 @@
             <a href="#" onclick="insertBBCode(textarea, 'code'); return false" title="Вставить код">Код</a>
         </div>
         <form action="{{ path('post', {'slug': post.slug}) }}#comment-form" method="post">
-            <div><textarea name="ccomment" id="ccomment" cols="69" rows="10" required>{{commentContent}}</textarea></div>
+            <div><textarea name="ccomment" id="ccomment" cols="69" rows="10" required>{{app.request.get('ccomment')}}</textarea></div>
             <div>
-                <input type="text" name="cauthor" value="{{commentAuthor}}" placeholder="Представьтесь *" required />
-                <input type="email" name="cemail" value="{{commentEmail}}" placeholder="Email *" required />
-                <input type="url" name="curl" value="{{commentUrl}}" placeholder="URL" />
+                <input type="text" name="cauthor" value="{{app.request.get('cauthor')}}" placeholder="Представьтесь *" required />
+                <input type="email" name="cemail" value="{{app.request.get('cemail')}}" placeholder="Email *" required />
+                <input type="url" name="curl" value="{{app.request.get('curl')}}" placeholder="URL" />
             </div>
             <div style="display:none"><input type="email" name="email" /></div>
             <div><input type="hidden" name="postId" value="{{post.id}}" /></div>

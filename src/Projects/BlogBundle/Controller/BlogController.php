@@ -50,11 +50,6 @@ class BlogController extends BaseController
 
         // Error message
         $errors = array();
-        // Form field values
-        $commentAuthor  = null;
-        $commentEmail   = null;
-        $commentUrl     = null;
-        $commentContent = null;
 
         // Handling of comments
         $request = $this->get('request');
@@ -70,12 +65,6 @@ class BlogController extends BaseController
             if (count($errors) === 0) {
                 $this->addComment($em, $request, $comment);
                 return $this->redirect($this->generateUrl('post', array('slug' => $slug)));
-            // ...otherwise - filling the form with entered data and displaying errors
-            } else {
-                $commentAuthor  = $request->get('cauthor');
-                $commentEmail   = $request->get('cemail');
-                $commentUrl     = $request->get('curl');
-                $commentContent = $request->get('ccomment');
             }
         }
 
@@ -98,11 +87,7 @@ class BlogController extends BaseController
             'description'    => $post->getDescription(),
             'post'           => $post,
             'comments'       => $comments,
-            'errors'         => $errors,
-            'commentAuthor'  => $commentAuthor,
-            'commentEmail'   => $commentEmail,
-            'commentUrl'     => $commentUrl,
-            'commentContent' => $commentContent);
+            'errors'         => $errors);
 
         return $this->render('ProjectsBlogBundle:Blog:post.html.twig', $data);
     }
