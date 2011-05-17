@@ -112,4 +112,27 @@ class BaseController extends Controller
         }
         return $this->em;
     }
+
+    /**
+     * Create paginator
+     * 
+     * @param  \Doctrine\ORM\Query       $query Query
+     * @param  integer                   $num   Num
+     * @return \Zend\Paginator\Paginator
+     */
+    protected function createPaginator(\Doctrine\ORM\Query $query, $num = null)
+    {
+        $adapter = $this->get('knplabs_paginator.adapter');
+        $adapter->setQuery($query, $num);
+        $adapter->setDistinct(true);
+
+        $paginator = new \Zend\Paginator\Paginator($adapter);
+        $paginator->setCurrentPageNumber($this->get('request')->query->get('page', 1));
+        // Number of posts
+        $paginator->setItemCountPerPage(1);
+        // Number of paginator links
+        $paginator->setPageRange(5);
+
+        return $paginator;
+    }
 }

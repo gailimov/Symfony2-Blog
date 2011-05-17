@@ -1,3 +1,6 @@
 [submodule "src/Bundle/GravatarBundle"]
 	path = src/Bundle/GravatarBundle
 	url = git://github.com/ornicar/GravatarBundle.git
+[submodule "src/Knplabs/Bundle/PaginatorBundle"]
+	path = src/Knplabs/Bundle/PaginatorBundle
+	url = git://github.com/knplabs/PaginatorBundle.git

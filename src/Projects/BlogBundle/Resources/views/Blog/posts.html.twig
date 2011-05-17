@@ -19,8 +19,6 @@
     {% endfor %}
     </section> <!-- .posts -->
     <section class="pagination">
-        <div class="left">&larr; <a href="#">Новые посты</a></div>
-        <div class="right"><a href="#">Старые посты</a> &rarr;</div>
-        <div class="clear"></div>
+        {{ posts|paginate }}
     </section> <!-- .pagination -->
 {% endblock %}

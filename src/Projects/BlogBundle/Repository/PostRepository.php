@@ -24,21 +24,16 @@ class PostRepository extends EntityRepository
     /**
      * Get all posts
      * 
-     * @param  integer $offset Offset
-     * @param  integer $limit  Limit
-     * @return array
+     * @return Doctrine\ORM\Query
      */
-    public function getAllPosts($offset, $limit)
+    public function getAllPosts()
     {
         $query = "SELECT p
                   FROM ProjectsBlogBundle:Post p
                   WHERE p.postType = 'post'
                   ORDER BY p.createdAt DESC, p.id DESC";
 
-        return $this->getEntityManager()->createQuery($query)
-                                        //->setParameter(1, $offset)
-                                        //->setParameter(2, $limit)
-                                        ->getResult();
+        return $this->getEntityManager()->createQuery($query);
     }
 
     /**
@@ -66,7 +61,7 @@ class PostRepository extends EntityRepository
      * Get post by ID of category
      * 
      * @param  integer $categoryId ID of category
-     * @return array
+     * @return Doctrine\ORM\Query
      */
     public function getPostByCategoryId($categoryId)
     {                  
@@ -77,8 +72,7 @@ class PostRepository extends EntityRepository
 
         try {
             return $this->getEntityManager()->createQuery($query)
-                                            ->setParameter(1, $categoryId)
-                                            ->getResult();
+                                            ->setParameter(1, $categoryId);
         } catch(NoResultException $e) {
             return null;
         }
@@ -88,7 +82,7 @@ class PostRepository extends EntityRepository
      * Get post by ID of user
      * 
      * @param  integer $userId ID of user
-     * @return array
+     * @return Doctrine\ORM\Query
      */
     public function getPostByUserId($userId)
     {                  
@@ -99,11 +93,25 @@ class PostRepository extends EntityRepository
 
         try {
             return $this->getEntityManager()->createQuery($query)
-                                            ->setParameter(1, $userId)
-                                            ->getResult();
+                                            ->setParameter(1, $userId);
         } catch(NoResultException $e) {
             return null;
         }
+    }
+
+    /**
+     * Count all posts
+     * 
+     * @return integer
+     */
+    public function countAllPosts()
+    {
+        $query = "SELECT COUNT(p)
+                  FROM ProjectsBlogBundle:Post p
+                  WHERE p.postType = 'post'";
+
+        return $this->getEntityManager()->createQuery($query)
+                                        ->getSingleScalarResult();
     }
 
     /**

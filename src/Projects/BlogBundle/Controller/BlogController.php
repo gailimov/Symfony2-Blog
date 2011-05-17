@@ -25,7 +25,10 @@ class BlogController extends BaseController
     {
         $em = $this->init();
 
-        $posts = $em->getRepository('ProjectsBlogBundle:Post')->getAllPosts(0, 10);
+        $query = $em->getRepository('ProjectsBlogBundle:Post')->getAllPosts();
+        $num   = $em->getRepository('ProjectsBlogBundle:Post')->countAllPosts();
+
+        $posts = $this->createPaginator($query, $num);
 
         $data = array(
             'mainTitle'   => $this->title,
@@ -121,8 +124,11 @@ class BlogController extends BaseController
 
         $categoryId = $category->getId();
 
-        $posts = $em->getRepository('ProjectsBlogBundle:Post')->getPostByCategoryId($categoryId);
+        $query = $em->getRepository('ProjectsBlogBundle:Post')->getPostByCategoryId($categoryId);
 
+        $posts = $this->createPaginator($query);
+
+        // TODO: FIX THIS
         if (!$posts) {
             throw new NotFoundHttpException('Posts not found');
         }
@@ -158,7 +164,9 @@ class BlogController extends BaseController
 
         $userId = $author->getId();
 
-        $posts = $em->getRepository('ProjectsBlogBundle:Post')->getPostByUserId($userId);
+        $query = $em->getRepository('ProjectsBlogBundle:Post')->getPostByUserId($userId);
+
+        $posts = $this->createPaginator($query);
 
         if (!$posts) {
             throw new NotFoundHttpException('Posts not found');
