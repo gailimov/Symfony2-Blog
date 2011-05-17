@@ -51,6 +51,14 @@ class BlogController extends BaseController
         // Error message
         $errors = array();
 
+        $post = $em->getRepository('ProjectsBlogBundle:Post')->getPostBySlug($slug);
+
+        if (!$post) {
+            throw new NotFoundHttpException('Not found');
+        }
+
+        $comments = $em->getRepository('ProjectsBlogBundle:Comment')->getByPostId($post->getId());
+
         // Handling of comments
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
@@ -61,33 +69,37 @@ class BlogController extends BaseController
 
             $errors = $this->container->get('validator')->validate($comment);
 
+            // Getting admin email
+            $admin      = $em->getRepository('ProjectsBlogBundle:User')->getAdmin();
+            $adminEmail = $admin->getEmail();
+
+            // Preparing comment data
+            $commentData = array('post'    => $post->getTitle(),
+                                 'author'  => $request->request->get('cauthor'),
+                                 'comment' => nl2br($request->request->get('ccomment')),
+                                 'link'    => $this->url . '/post/' . $slug . '/');
+
             // If the comment is valid - add it
             if (count($errors) === 0) {
                 $this->addComment($em, $request, $comment);
+                // Sending mail to admin about new comment
+                $this->sendMailToAdmin($this->title, $this->url, $adminEmail, $commentData);
                 return $this->redirect($this->generateUrl('post', array('slug' => $slug)));
             }
         }
 
-        $post = $em->getRepository('ProjectsBlogBundle:Post')->getPostBySlug($slug);
-
-        if (!$post) {
-            throw new NotFoundHttpException('Not found');
-        }
-
-        $comments = $em->getRepository('ProjectsBlogBundle:Comment')->getByPostId($post->getId());
-
         $mainTitle = $post->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
 
         $data = array(
-            'mainTitle'      => $mainTitle,
-            'title'          => $this->title,
-            'pages'          => $this->pages,
-            'categories'     => $this->categories,
-            'links'          => $this->links,
-            'description'    => $post->getDescription(),
-            'post'           => $post,
-            'comments'       => $comments,
-            'errors'         => $errors);
+            'mainTitle'   => $mainTitle,
+            'title'       => $this->title,
+            'pages'       => $this->pages,
+            'categories'  => $this->categories,
+            'links'       => $this->links,
+            'description' => $post->getDescription(),
+            'post'        => $post,
+            'comments'    => $comments,
+            'errors'      => $errors);
 
         return $this->render('ProjectsBlogBundle:Blog:post.html.twig', $data);
     }
@@ -226,6 +238,32 @@ class BlogController extends BaseController
 
         $em->persist($comment);
         $em->flush();
+
+        return true;
+    }
+
+    /**
+     * Send mail to admin about new comment
+     * 
+     * @param  string  $blogTitle  Blog title
+     * @param  string  $blogUrl    Blog URL
+     * @param  string  $adminEmail Admin's email
+     * @param  array   $data       Array of comment data
+     * @return boolean
+     */
+    private function sendMailToAdmin($blogTitle, $blogUrl, $adminEmail, $data)
+    {
+        $blogUrl = str_replace('http://', '', $blogUrl);
+
+        $mailer = $this->get('mailer');
+
+        $message = \Swift_Message::newInstance()->setSubject('Новый комментарий на блоге «' . $blogTitle . '»')
+                                                ->setFrom('noreply@' . $blogUrl)
+                                                ->setTo($adminEmail)
+                                                ->setBody($this->renderView('ProjectsBlogBundle:Blog:mail.html.twig', $data), 'text/html')
+                                                ->addPart($this->renderView('ProjectsBlogBundle:Blog:mail.txt.twig',  $data), 'text/plain');
+
+        $mailer->send($message);
 
         return true;
     }

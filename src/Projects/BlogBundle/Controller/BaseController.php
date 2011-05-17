@@ -32,6 +32,13 @@ class BaseController extends Controller
     protected $config = array('titleSeparator' => '::');
 
     /**
+     * URL
+     * 
+     * @var string
+     */
+    protected $url;
+
+    /**
      * Title
      * 
      * @var string
@@ -82,6 +89,7 @@ class BaseController extends Controller
     {
         $em                      = $this->getEm();
         $config                  = $em->getRepository('ProjectsBlogBundle:Config')->get();
+        $this->url               = $config->getUrl();
         $this->title             = $config->getTitle();
         $this->description       = $config->getDescription();
         $this->commentsModerated = $config->getCommentsModerated();

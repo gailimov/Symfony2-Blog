@@ -40,4 +40,19 @@ class UserRepository extends EntityRepository
             return null;
         }
     }
+
+    /**
+     * Get admin
+     * 
+     * @return array
+     */
+    public function getAdmin()
+    {
+        $query = "SELECT u
+                  FROM ProjectsBlogBundle:User u
+                  WHERE u.username = 'admin'";
+
+        return $this->getEntityManager()->createQuery($query)
+                                        ->getSingleResult();
+    }
 }
