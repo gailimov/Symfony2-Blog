@@ -140,9 +140,14 @@ class BlogController extends BaseController
      * 
      * @param string $slug Slug
      */
-    public function categoryAction($slug)
+    public function categoryAction($slug = '')
     {
         $em = $this->init();
+
+        // If the category is not listed - we derive the entire list
+        if (empty($slug)) {
+            return $this->render('ProjectsBlogBundle:Blog:categories.html.twig', $this->getListData('Все категории'));
+        }
 
         $category = $em->getRepository('ProjectsBlogBundle:Category')->getBySlug($slug);
 
@@ -219,9 +224,14 @@ class BlogController extends BaseController
      * 
      * @param string $slug Slug
      */
-    public function pageAction($slug)
+    public function pageAction($slug = '')
     {
         $em = $this->init();
+
+        // If the page is not listed - we derive the entire list
+        if (empty($slug)) {
+            return $this->render('ProjectsBlogBundle:Blog:pages.html.twig', $this->getListData('Все страницы'));
+        }
 
         $page = $em->getRepository('ProjectsBlogBundle:Post')->getPageBySlug($slug);
 
@@ -241,6 +251,22 @@ class BlogController extends BaseController
             'page'        => $page);
 
         return $this->render('ProjectsBlogBundle:Blog:page.html.twig', $data);
+    }
+
+    /**
+     * Get data for list
+     * 
+     * @param  string $mainTitle Title
+     * @return array
+     */
+    private function getListData($mainTitle)
+    {
+        return array('mainTitle'   => $mainTitle . ' ' . $this->config['titleSeparator'] . ' ' . $this->title,
+                     'title'       => $this->title,
+                     'description' => $this->description,
+                     'pages'       => $this->pages,
+                     'categories'  => $this->categories,
+                     'links'       => $this->links);
     }
 
     /**

@@ -1,0 +1,15 @@
+{% extends 'ProjectsBlogBundle::layout.html.twig' %}
+{% block content %}
+    <section class="posts">
+        <article>
+            <header>
+                <h2>Все страницы</h2>
+            </header>
+            <ul>
+            {% for page in pages %}
+                <li><a href="{{ path('page', {'slug': page.slug}) }}">{{page.title}}</a></li>
+            {% endfor %}
+            </ul>
+        </article>
+    </section> <!-- .posts -->
+{% endblock %}
