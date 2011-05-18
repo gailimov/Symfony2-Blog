@@ -66,9 +66,9 @@
         <form action="{{ path('post', {'slug': post.slug}) }}#comment-form" method="post">
             <div><textarea name="ccomment" id="ccomment" cols="69" rows="10" required>{{app.request.get('ccomment')}}</textarea></div>
             <div>
-                <input type="text" name="cauthor" value="{{app.request.get('cauthor')}}" placeholder="Представьтесь *" required />
-                <input type="email" name="cemail" value="{{app.request.get('cemail')}}" placeholder="Email *" required />
-                <input type="url" name="curl" value="{{app.request.get('curl')}}" placeholder="URL" />
+                <input type="text" name="cauthor" value="{% if app.request.get('cauthor') %}{{app.request.get('cauthor')}}{% else %}{{commentAuthorCookie}}{% endif %}" placeholder="Представьтесь *" required />
+                <input type="email" name="cemail" value="{% if app.request.get('cemail') %}{{app.request.get('cemail')}}{% else %}{{commentEmailCookie}}{% endif %}" placeholder="Email *" required />
+                <input type="url" name="curl" value="{% if app.request.get('curl') %}{{app.request.get('curl')}}{% else %}{{commentUrlCookie}}{% endif %}" placeholder="URL" />
             </div>
             <div style="display:none"><input type="email" name="email" /></div>
             <div><input type="hidden" name="postId" value="{{post.id}}" /></div>

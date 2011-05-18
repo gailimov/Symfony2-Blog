@@ -53,6 +53,22 @@ class BlogController extends BaseController
 
         // Error message
         $errors = array();
+        // Cookies
+        if (isset($_COOKIE['sfb_commentAuthor'])) {
+            $commentAuthorCookie = $_COOKIE['sfb_commentAuthor'];
+        } else {
+            $commentAuthorCookie = null;
+        }
+        if (isset($_COOKIE['sfb_commentEmail'])) {
+            $commentEmailCookie = $_COOKIE['sfb_commentEmail'];
+        } else {
+            $commentEmailCookie = null;
+        }
+        if (isset($_COOKIE['sfb_commentUrl'])) {
+            $commentUrlCookie = $_COOKIE['sfb_commentUrl'];
+        } else {
+            $commentUrlCookie = null;
+        }
 
         $post = $em->getRepository('ProjectsBlogBundle:Post')->getPostBySlug($slug);
 
@@ -85,8 +101,17 @@ class BlogController extends BaseController
             // If the comment is valid - add it
             if (count($errors) === 0) {
                 $this->addComment($em, $request, $comment);
+
+                // Setting the cookie
+                $expire = time() + 3600 * 24 * 365;
+                $path = '/';
+                setcookie('sfb_commentAuthor', $request->request->get('cauthor'), $expire, $path);
+                setcookie('sfb_commentEmail',  $request->request->get('cemail'),  $expire, $path);
+                setcookie('sfb_commentUrl',    $request->request->get('curl'),    $expire, $path);
+
                 // Sending mail to admin about new comment
                 $this->sendMailToAdmin($this->title, $this->url, $adminEmail, $commentData);
+
                 return $this->redirect($this->generateUrl('post', array('slug' => $slug)));
             }
         }
@@ -94,15 +119,18 @@ class BlogController extends BaseController
         $mainTitle = $post->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
 
         $data = array(
-            'mainTitle'   => $mainTitle,
-            'title'       => $this->title,
-            'pages'       => $this->pages,
-            'categories'  => $this->categories,
-            'links'       => $this->links,
-            'description' => $post->getDescription(),
-            'post'        => $post,
-            'comments'    => $comments,
-            'errors'      => $errors);
+            'mainTitle'           => $mainTitle,
+            'title'               => $this->title,
+            'pages'               => $this->pages,
+            'categories'          => $this->categories,
+            'links'               => $this->links,
+            'description'         => $post->getDescription(),
+            'post'                => $post,
+            'comments'            => $comments,
+            'errors'              => $errors,
+            'commentAuthorCookie' => $commentAuthorCookie,
+            'commentEmailCookie'  => $commentEmailCookie,
+            'commentUrlCookie'    => $commentUrlCookie);
 
         return $this->render('ProjectsBlogBundle:Blog:post.html.twig', $data);
     }

@@ -336,7 +336,12 @@ div.error {
                             cursor: pointer
                         }
                         
-                .content-wrapper .pagination {margin: 0 40px 40px 40px}
+                .content-wrapper .pagination {
+                    margin: 0 40px 40px 40px;
+                    text-align: center
+                }
+                
+                    .content-wrapper .pagination span {margin: 0 5px}
                 
                     .content-wrapper .pagination ul {text-align: center}
                 
