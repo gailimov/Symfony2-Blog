@@ -17,7 +17,7 @@
     <script src="{{ asset('bundles/projectsblog/js/jquery-1.6.min.js') }}"></script>
     <script src="{{ asset('bundles/projectsblog/js/modernizr.js') }}"></script>
     <script src="{{ asset('bundles/projectsblog/js/script.js') }}"></script>
-    <title>{% block title %}{{mainTitle}}{% endblock %}</title>
+    <title>{% block title %}{{mainTitle | raw}}{% endblock %}</title>
 </head>
 <body>
     <div id="wrapper" class="border-rounded">

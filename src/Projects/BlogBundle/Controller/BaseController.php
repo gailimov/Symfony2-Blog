@@ -53,6 +53,13 @@ class BaseController extends Controller
     protected $description;
 
     /**
+     * Number of posts on the page
+     * 
+     * @var integer
+     */
+    protected $postsNum;
+
+    /**
      * Comments moderation status
      * 
      * @var integer
@@ -81,6 +88,13 @@ class BaseController extends Controller
     protected $links = array();
 
     /**
+     * Array of data for rendering
+     * 
+     * @var array
+     */
+    protected $data = array();
+
+    /**
      * Initialize
      * 
      * @return \Doctrine\ORM\EntityManager
@@ -92,10 +106,12 @@ class BaseController extends Controller
         $this->url               = $config->getUrl();
         $this->title             = $config->getTitle();
         $this->description       = $config->getDescription();
+        $this->postsNum          = $config->getPostsNum();
         $this->commentsModerated = $config->getCommentsModerated();
         $this->pages             = $em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
         $this->categories        = $em->getRepository('ProjectsBlogBundle:Category')->getAll();
         $this->links             = $em->getRepository('ProjectsBlogBundle:Link')->findAll();
+        $this->data              = $this->getData();
 
         return $em;
     }
@@ -129,10 +145,25 @@ class BaseController extends Controller
         $paginator = new \Zend\Paginator\Paginator($adapter);
         $paginator->setCurrentPageNumber($this->get('request')->query->get('page', 1));
         // Number of posts
-        $paginator->setItemCountPerPage(1);
+        $paginator->setItemCountPerPage($this->postsNum);
         // Number of paginator links
         $paginator->setPageRange(5);
 
         return $paginator;
+    }
+
+    /**
+     * Get data for rendering
+     * 
+     * @return array
+     */
+    private function getData()
+    {
+        return array('mainTitle'   => $this->title,
+                     'title'       => $this->title,
+                     'description' => $this->description,
+                     'pages'       => $this->pages,
+                     'categories'  => $this->categories,
+                     'links'       => $this->links);
     }
 }

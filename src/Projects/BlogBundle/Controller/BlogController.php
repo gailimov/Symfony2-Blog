@@ -25,21 +25,12 @@ class BlogController extends BaseController
     {
         $em = $this->init();
 
-        $query = $em->getRepository('ProjectsBlogBundle:Post')->getAllPosts();
-        $num   = $em->getRepository('ProjectsBlogBundle:Post')->countAllPosts();
+        $posts = $this->createPaginator($em->getRepository('ProjectsBlogBundle:Post')->getAllPosts(),
+                                        $em->getRepository('ProjectsBlogBundle:Post')->countAllPosts());
 
-        $posts = $this->createPaginator($query, $num);
+        $this->data['posts'] = $posts;
 
-        $data = array(
-            'mainTitle'   => $this->title,
-            'title'       => $this->title,
-            'description' => $this->description,
-            'pages'       => $this->pages,
-            'categories'  => $this->categories,
-            'links'       => $this->links,
-            'posts'       => $posts);
-
-        return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $data);
+        return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $this->data);
     }
 
     /**
@@ -81,7 +72,7 @@ class BlogController extends BaseController
         // Handling of comments
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
-            $comment = new Comment;
+            $comment = new Comment();
             $comment->setAuthor(htmlspecialchars(trim($request->request->get('cauthor'))))
                     ->setEmail(htmlspecialchars(trim($request->request->get('cemail'))))
                     ->setComment(nl2br(htmlspecialchars($request->request->get('ccomment'))));
@@ -116,23 +107,16 @@ class BlogController extends BaseController
             }
         }
 
-        $mainTitle = $post->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['mainTitle']           = $post->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['description']         = $post->getDescription();
+        $this->data['post']                = $post;
+        $this->data['comments']            = $comments;
+        $this->data['errors']              = $errors;
+        $this->data['commentAuthorCookie'] = $commentAuthorCookie;
+        $this->data['commentEmailCookie']  = $commentEmailCookie;
+        $this->data['commentUrlCookie']    = $commentUrlCookie;
 
-        $data = array(
-            'mainTitle'           => $mainTitle,
-            'title'               => $this->title,
-            'pages'               => $this->pages,
-            'categories'          => $this->categories,
-            'links'               => $this->links,
-            'description'         => $post->getDescription(),
-            'post'                => $post,
-            'comments'            => $comments,
-            'errors'              => $errors,
-            'commentAuthorCookie' => $commentAuthorCookie,
-            'commentEmailCookie'  => $commentEmailCookie,
-            'commentUrlCookie'    => $commentUrlCookie);
-
-        return $this->render('ProjectsBlogBundle:Blog:post.html.twig', $data);
+        return $this->render('ProjectsBlogBundle:Blog:post.html.twig', $this->data);
     }
 
     /**
@@ -155,29 +139,18 @@ class BlogController extends BaseController
             throw new NotFoundHttpException('Category not found');
         }
 
-        $categoryId = $category->getId();
-
-        $query = $em->getRepository('ProjectsBlogBundle:Post')->getPostByCategoryId($categoryId);
-
-        $posts = $this->createPaginator($query);
+        $posts = $this->createPaginator($em->getRepository('ProjectsBlogBundle:Post')->getPostByCategoryId($category->getId()));
 
         // TODO: FIX THIS
         if (!$posts) {
             throw new NotFoundHttpException('Posts not found');
         }
 
-        $mainTitle = $category->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['mainTitle']   = $category->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['description'] = $category->getDescription();
+        $this->data['posts']       = $posts;
 
-        $data = array(
-            'mainTitle'   => $mainTitle,
-            'title'       => $this->title,
-            'description' => $category->getDescription(),
-            'pages'       => $this->pages,
-            'categories'  => $this->categories,
-            'links'       => $this->links,
-            'posts'       => $posts);
-
-        return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $data);
+        return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $this->data);
     }
 
     /**
@@ -185,9 +158,15 @@ class BlogController extends BaseController
      * 
      * @param string $author Author
      */
-    public function authorAction($author)
+    public function authorAction($author = '')
     {
         $em = $this->init();
+
+        // If the author is not listed - we derive the entire list
+        if (empty($author)) {
+            $authors = $em->getRepository('ProjectsBlogBundle:User')->findAll();
+            return $this->render('ProjectsBlogBundle:Blog:authors.html.twig', $this->getListData('Все авторы', $authors));
+        }
 
         $author = $em->getRepository('ProjectsBlogBundle:User')->getByUsername($author);
 
@@ -195,28 +174,16 @@ class BlogController extends BaseController
             throw new NotFoundHttpException('Author not found');
         }
 
-        $userId = $author->getId();
-
-        $query = $em->getRepository('ProjectsBlogBundle:Post')->getPostByUserId($userId);
-
-        $posts = $this->createPaginator($query);
+        $posts = $this->createPaginator($em->getRepository('ProjectsBlogBundle:Post')->getPostByUserId($author->getId()));
 
         if (!$posts) {
             throw new NotFoundHttpException('Posts not found');
         }
 
-        $mainTitle = $author->getUsername() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['mainTitle'] = $author->getUsername() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['posts']     = $posts;
 
-        $data = array(
-            'mainTitle'   => $mainTitle,
-            'title'       => $this->title,
-            'description' => $this->description,
-            'pages'       => $this->pages,
-            'categories'  => $this->categories,
-            'links'       => $this->links,
-            'posts'       => $posts);
-
-        return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $data);
+        return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $this->data);
     }
 
     /**
@@ -239,34 +206,26 @@ class BlogController extends BaseController
             throw new NotFoundHttpException('Not found');
         }
 
-        $mainTitle = $page->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['mainTitle']   = $page->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['description'] = $page->getDescription();
+        $this->data['page']        = $page;
 
-        $data = array(
-            'mainTitle'   => $mainTitle,
-            'title'       => $this->title,
-            'pages'       => $this->pages,
-            'categories'  => $this->categories,
-            'links'       => $this->links,
-            'description' => $page->getDescription(),
-            'page'        => $page);
-
-        return $this->render('ProjectsBlogBundle:Blog:page.html.twig', $data);
+        return $this->render('ProjectsBlogBundle:Blog:page.html.twig', $this->data);
     }
 
     /**
      * Get data for list
      * 
      * @param  string $mainTitle Title
+     * @param  array  $authors   Array of authors
      * @return array
      */
-    private function getListData($mainTitle)
+    private function getListData($mainTitle, $authors = array())
     {
-        return array('mainTitle'   => $mainTitle . ' ' . $this->config['titleSeparator'] . ' ' . $this->title,
-                     'title'       => $this->title,
-                     'description' => $this->description,
-                     'pages'       => $this->pages,
-                     'categories'  => $this->categories,
-                     'links'       => $this->links);
+        $this->data['mainTitle'] = $mainTitle . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['authors']   = $authors;
+
+        return $this->data;
     }
 
     /**

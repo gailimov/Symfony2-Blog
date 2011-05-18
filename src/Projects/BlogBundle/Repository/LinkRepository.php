@@ -20,17 +20,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class LinkRepository extends EntityRepository
 {
-    /**
-     * Find all
-     * 
-     * @return array
-     */
-    public function findAll()
-    {
-        $query = "SELECT l
-                  FROM ProjectsBlogBundle:Link l";
-
-        return $this->getEntityManager()->createQuery($query)
-                                        ->getResult();
-    }
 }

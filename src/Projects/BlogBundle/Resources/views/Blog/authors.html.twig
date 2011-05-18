@@ -1,0 +1,15 @@
+{% extends 'ProjectsBlogBundle::layout.html.twig' %}
+{% block content %}
+    <section class="posts">
+        <article>
+            <header>
+                <h2>Все авторы</h2>
+            </header>
+            <ul>
+            {% for author in authors %}
+                <li><a href="{{ path('author', {'author': author.username}) }}" title="Посмотреть все посты этого автора">{{author.username}}</a></li>
+            {% endfor %}
+            </ul>
+        </article>
+    </section> <!-- .posts -->
+{% endblock %}
