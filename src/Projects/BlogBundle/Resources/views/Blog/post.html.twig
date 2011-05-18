@@ -1,17 +1,15 @@
 {% extends 'ProjectsBlogBundle::layout.html.twig' %}
 {% block content %}
     <section class="posts">
-    {% autoescape false %}
         <article>
             <header>
-                <h2><a href="{{ path('category', {'slug': post.categoryId.slug}) }}" title="Посмотреть все посты в категории &laquo;{{post.categoryId.title}}&raquo;">{{post.categoryId.title}}</a> &rarr; {{post.title}}</h2>
+                <h2><a href="{{ path('category', {'slug': post.categoryId.slug}) }}" title="Посмотреть все посты в категории &laquo;{{post.categoryId.title}}&raquo;">{{post.categoryId.title}}</a> &rarr; {{post.title | raw}}</h2>
             </header>
             <div class="left vcard">Автор: <a href="{{ path('author', {'author': post.userId.username}) }}" class="fn" title="Посмотреть все посты этого автора">{{post.userId.username}}</a></div>
             <div class="right">{{post.createdAt|date('d M Y')}}</div>
             <div class="clear"></div>
-            {{post.post}}
+            {{post.post | raw}}
         </article>
-    {% endautoescape %}
     </section> <!-- .posts -->
     <section id="comments">
         <header>
@@ -27,7 +25,7 @@
             {% endif %}
             </header>
             <img src="{{ gravatar(comment.email, 50, 'pg', 'monsterid') }}" class="gravatar" alt="{{comment.author}}" title="{{comment.author}}" />
-            <p>{{comment.comment}}</p>
+            <p>{{comment.comment | raw}}</p>
             <p class="small">{{comment.createdAt|date('d M Y в H:i')}}</p>
             <p class="reply"><a href="#" onclick="javascript:reply('[reply#comment-{{comment.id}}]{{comment.author}}[/reply]');return false;" class="ajax">Ответить</a></p>
         </article>
@@ -71,7 +69,6 @@
                 <input type="url" name="curl" value="{% if app.request.get('curl') %}{{app.request.get('curl')}}{% else %}{{commentUrlCookie}}{% endif %}" placeholder="URL" />
             </div>
             <div style="display:none"><input type="email" name="email" /></div>
-            <div><input type="hidden" name="postId" value="{{post.id}}" /></div>
             <div>
                 <input type="submit" name="add" value="Добавить комментарий" />
                 <input type="submit" name="preview" value="Предварительный просмотр" />

@@ -2,20 +2,18 @@
 {% block content %}
     <section class="posts">
     {% for post in posts %}
-        {% autoescape false %}
         <article>
             <header>
-                <h2><a href="{{ path('category', {'slug': post.categoryId.slug}) }}" title="Посмотреть все посты в категории &laquo;{{post.categoryId.title}}&raquo;">{{post.categoryId.title}}</a> &rarr; <a href="{{ path('post', {'slug': post.slug}) }}">{{post.title}}</a></h2>
+                <h2><a href="{{ path('category', {'slug': post.categoryId.slug}) }}" title="Посмотреть все посты в категории &laquo;{{post.categoryId.title}}&raquo;">{{post.categoryId.title}}</a> &rarr; <a href="{{ path('post', {'slug': post.slug}) }}">{{post.title | raw}}</a></h2>
             </header>
             <div class="left vcard">Автор: <a href="{{ path('author', {'author': post.userId.username}) }}" class="fn" title="Посмотреть все посты этого автора">{{post.userId.username}}</a></div>
             <div class="right">{{post.createdAt|date('d M Y')}} г.</div>
             <div class="clear"></div>
-            <p>{{post.post}}</p>
+            <p>{{post.post | raw}}</p>
             <div class="left"><a href="post.html#comments" title="Посмотреть все комментарии">22 комментария</a></div>
             <div class="right"><a href="{{ path('post', {'slug': post.slug}) }}">Продолжение</a> &rarr;</div>
             <div class="clear"></div>
         </article>
-        {% endautoescape %}
     {% endfor %}
     </section> <!-- .posts -->
     <section class="pagination">

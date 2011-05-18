@@ -1,13 +1,11 @@
 {% extends 'ProjectsBlogBundle::layout.html.twig' %}
 {% block content %}
     <section class="posts">
-    {% autoescape false %}
         <article>
             <header>
-                <h2>{{page.title}}</h2>
+                <h2>{{page.title | raw}}</h2>
             </header>
-            <p>{{page.post}}</p>
+            <p>{{page.post | raw}}</p>
         </article>
-    {% endautoescape %}
     </section> <!-- .posts -->
 {% endblock %}

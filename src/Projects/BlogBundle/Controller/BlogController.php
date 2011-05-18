@@ -82,9 +82,9 @@ class BlogController extends BaseController
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
             $comment = new Comment;
-            $comment->setAuthor($request->request->get('cauthor'))
-                    ->setEmail($request->request->get('cemail'))
-                    ->setComment($request->request->get('ccomment'));
+            $comment->setAuthor(htmlspecialchars(trim($request->request->get('cauthor'))))
+                    ->setEmail(htmlspecialchars(trim($request->request->get('cemail'))))
+                    ->setComment(nl2br(htmlspecialchars($request->request->get('ccomment'))));
 
             $errors = $this->container->get('validator')->validate($comment);
 
@@ -94,13 +94,13 @@ class BlogController extends BaseController
 
             // Preparing comment data
             $commentData = array('post'    => $post->getTitle(),
-                                 'author'  => $request->request->get('cauthor'),
-                                 'comment' => nl2br($request->request->get('ccomment')),
+                                 'author'  => trim($request->request->get('cauthor')),
+                                 'comment' => nl2br(htmlspecialchars($request->request->get('ccomment'))),
                                  'link'    => $this->url . '/post/' . $slug . '/');
 
             // If the comment is valid - add it
             if (count($errors) === 0) {
-                $this->addComment($em, $request, $comment);
+                $this->addComment($post->getId(), $em, $request, $comment);
 
                 // Setting the cookie
                 $expire = time() + 3600 * 24 * 365;
@@ -246,12 +246,13 @@ class BlogController extends BaseController
     /**
      * Add comment
      * 
+     * @param  integer $postId  ID of post
      * @param  object  $em      \Doctrine\ORM\EntityManager
      * @param  object  $request Request
      * @param  object  $comment Projects\BlogBundle\Entity\Comment
      * @return boolean
      */
-    private function addComment($em, $request, $comment)
+    private function addComment($postId, $em, $request, $comment)
     {
         $fakeEmail = $request->request->get('email');
 
@@ -266,9 +267,9 @@ class BlogController extends BaseController
             $approved = 0;
         }
 
-        $comment->setPostId($em->getReference('ProjectsBlogBundle:Post', $request->request->get('postId')))
-                ->setUrl($request->request->get('curl'))
-                ->setIp($request->getClientIp())
+        $comment->setPostId($em->getReference('ProjectsBlogBundle:Post', $postId))
+                ->setUrl(htmlspecialchars(trim($request->request->get('curl'))))
+                ->setIp(ip2long($request->getClientIp()))
                 ->setUserAgent($request->server->get('HTTP_USER_AGENT'))
                 ->setApproved($approved);
 
