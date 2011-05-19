@@ -13,7 +13,7 @@
     </section> <!-- .posts -->
     <section id="comments">
         <header>
-            <h3>Комментарии <sup><a href="#" title="Подписаться на RSS-ленту комментариев к этому посту">RSS</a></sup></h3>
+            <h3>Комментарии <sup><a href="/sfblog/web/app_dev.php/feed/comments/{{post.slug}}/" title="Подписаться на RSS-ленту комментариев к этому посту">RSS</a></sup></h3>
         </header>
     {% for comment in comments %}
         <article id="comment-{{comment.id}}">

@@ -17,6 +17,8 @@
     <script src="{{ asset('bundles/projectsblog/js/jquery-1.6.min.js') }}"></script>
     <script src="{{ asset('bundles/projectsblog/js/modernizr.js') }}"></script>
     <script src="{{ asset('bundles/projectsblog/js/script.js') }}"></script>
+    <link rel="alternate" href="{{url}}/web/app_dev.php/feed/" type="application/rss+xml" title="RSS-лента постов" />
+    <link rel="alternate" href="{{url}}/web/app_dev.php/feed/comments/" type="application/rss+xml" title="RSS-лента комментариев" />
     <title>{% block title %}{{mainTitle | raw}}{% endblock %}</title>
 </head>
 <body>

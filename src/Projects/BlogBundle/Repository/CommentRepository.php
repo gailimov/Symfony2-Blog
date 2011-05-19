@@ -22,6 +22,28 @@ use Doctrine\ORM\NoResultException;
 class CommentRepository extends EntityRepository
 {
     /**
+     * Get approved
+     * 
+     * @param  integer $num Number
+     * @return array
+     */
+    public function getAllApproved($num)
+    {
+        $query = "SELECT c
+                  FROM ProjectsBlogBundle:Comment c
+                  WHERE c.approved = 1
+                  ORDER BY c.createdAt DESC, c.id DESC";
+
+        try {
+            return $this->getEntityManager()->createQuery($query)
+                                            ->setMaxResults($num)
+                                            ->getResult();
+        } catch(NoResultException $e) {
+            return false;
+        }
+    }
+
+    /**
      * Get by post ID
      * 
      * @param  integer $postId ID of post

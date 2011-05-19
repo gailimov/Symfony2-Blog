@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <atom:link href="{{url}}/feed/comments/" rel="self" type="application/rss+xml" />
+        <link>{{url}}/feed/comments/</link>
+        <title>{{mainTitle}}</title>
+        <generator>{{url}}</generator>
+        <webMaster>{{email}} ({{name}})</webMaster>
+        <copyright>{{name}}</copyright>
+        <description>RSS-лента комментариев</description>
+{% for comment in comments %}
+    {% for post in posts %}
+        {% if comment.postId.id == post.id %}
+        <item>
+            <title>Комментарий к посту &amp;laquo;{{post.title}}&amp;raquo; от {{comment.author}}</title>
+            <pubDate>{{comment.createdAt | date}}</pubDate>
+            <guid>{{url}}/post/{{post.slug}}/#comment-{{comment.id}}</guid>
+            <link>{{url}}/post/{{post.slug}}/#comment-{{comment.id}}</link>
+            <description><![CDATA[ {{comment.comment}} ]]></description>
+        </item>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+    </channel>
+</rss>

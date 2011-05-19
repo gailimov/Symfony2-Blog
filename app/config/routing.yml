@@ -25,3 +25,12 @@ author:
 
 page:
     resource: "@ProjectsBlogBundle/Resources/config/routing.yml"
+
+feed:
+    resource: "@ProjectsBlogBundle/Resources/config/routing.yml"
+
+commentsFeed:
+    resource: "@ProjectsBlogBundle/Resources/config/routing.yml"
+
+commentsToPostFeed:
+    resource: "@ProjectsBlogBundle/Resources/config/routing.yml"

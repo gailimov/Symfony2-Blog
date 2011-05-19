@@ -159,7 +159,8 @@ class BaseController extends Controller
      */
     private function getData()
     {
-        return array('mainTitle'   => $this->title,
+        return array('url'         => $this->url,
+                     'mainTitle'   => $this->title,
                      'title'       => $this->title,
                      'description' => $this->description,
                      'pages'       => $this->pages,

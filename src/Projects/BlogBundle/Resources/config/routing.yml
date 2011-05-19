@@ -17,3 +17,15 @@ author:
 page:
     pattern:  /page/{slug}/
     defaults: { _controller: ProjectsBlogBundle:Blog:page }
+
+feed:
+    pattern:  /feed/
+    defaults: { _controller: ProjectsBlogBundle:Blog:feed }
+
+commentsFeed:
+    pattern:  /feed/comments/
+    defaults: { _controller: ProjectsBlogBundle:Blog:commentsFeed }
+
+commentsToPostFeed:
+    pattern:  /feed/comments/{slug}/
+    defaults: { _controller: ProjectsBlogBundle:Blog:commentsToPostFeed }

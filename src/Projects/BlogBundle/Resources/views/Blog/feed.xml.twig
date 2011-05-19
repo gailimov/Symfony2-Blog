@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <atom:link href="{{url}}/feed/" rel="self" type="application/rss+xml" />
+        <link>{{url}}</link>
+        <title>{{title}}</title>
+        <generator>{{url}}</generator>
+        <webMaster>{{email}} ({{name}})</webMaster>
+        <copyright>{{name}}</copyright>
+        <description>{{description}}</description>
+{% for item in posts %}
+        <item>
+            <title>{{item.title}}</title>
+            <pubDate>{{item.createdAt | date}}</pubDate>
+            <guid>{{url}}/post/{{item.slug}}/</guid>
+            <link>{{url}}/post/{{item.slug}}/</link>
+            <description><![CDATA[ {{item.post | raw}} ]]></description>
+        </item>
+{% endfor %}
+    </channel>
+</rss>

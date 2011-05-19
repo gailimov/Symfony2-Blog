@@ -25,10 +25,8 @@ class BlogController extends BaseController
     {
         $em = $this->init();
 
-        $posts = $this->createPaginator($em->getRepository('ProjectsBlogBundle:Post')->getAllPosts(),
-                                        $em->getRepository('ProjectsBlogBundle:Post')->countAllPosts());
-
-        $this->data['posts'] = $posts;
+        $this->data['posts'] = $this->createPaginator($em->getRepository('ProjectsBlogBundle:Post')->getAllPosts(),
+                                                      $em->getRepository('ProjectsBlogBundle:Post')->countAllPosts());
 
         return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $this->data);
     }
@@ -66,8 +64,6 @@ class BlogController extends BaseController
         if (!$post) {
             throw new NotFoundHttpException('Not found');
         }
-
-        $comments = $em->getRepository('ProjectsBlogBundle:Comment')->getByPostId($post->getId());
 
         // Handling of comments
         $request = $this->get('request');
@@ -110,7 +106,7 @@ class BlogController extends BaseController
         $this->data['mainTitle']           = $post->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
         $this->data['description']         = $post->getDescription();
         $this->data['post']                = $post;
-        $this->data['comments']            = $comments;
+        $this->data['comments']            = $em->getRepository('ProjectsBlogBundle:Comment')->getByPostId($post->getId());
         $this->data['errors']              = $errors;
         $this->data['commentAuthorCookie'] = $commentAuthorCookie;
         $this->data['commentEmailCookie']  = $commentEmailCookie;
@@ -211,6 +207,72 @@ class BlogController extends BaseController
         $this->data['page']        = $page;
 
         return $this->render('ProjectsBlogBundle:Blog:page.html.twig', $this->data);
+    }
+
+    /**
+     * RSS-feed of posts
+     */
+    public function feedAction()
+    {
+        $em = $this->init();
+
+        $admin = $em->getRepository('ProjectsBlogBundle:User')->getAdmin();
+
+        $this->data['posts'] = $em->getRepository('ProjectsBlogBundle:Post')->getAllPosts()
+                                                                            ->setMaxResults(10)
+                                                                            ->getResult();
+        $this->data['email'] = $admin->getEmail();
+        $this->data['name']  = $admin->getFirstname();
+
+        return $this->render('ProjectsBlogBundle:Blog:feed.xml.twig', $this->data);
+    }
+
+    /**
+     * RSS-feed of comments
+     */
+    public function commentsFeedAction()
+    {
+        $em = $this->init();
+
+        $admin = $em->getRepository('ProjectsBlogBundle:User')->getAdmin();
+
+        $this->data['mainTitle'] = 'RSS-лента комментариев ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['email']     = $admin->getEmail();
+        $this->data['name']      = $admin->getFirstname();
+        $this->data['posts']     = $em->getRepository('ProjectsBlogBundle:Post')
+                                      ->getAllPosts()
+                                      ->getResult();
+        $this->data['comments']  = $em->getRepository('ProjectsBlogBundle:Comment')
+                                      ->getAllApproved('10');
+
+        return $this->render('ProjectsBlogBundle:Blog:commentsFeed.xml.twig', $this->data);
+    }
+
+    /**
+     * RSS-feed of comments to post
+     * 
+     * @param string $slug Post's slug
+     */
+    public function commentsToPostFeedAction($slug)
+    {
+        $em = $this->init();
+
+        $admin = $em->getRepository('ProjectsBlogBundle:User')->getAdmin();
+
+        $post = $em->getRepository('ProjectsBlogBundle:Post')->getPostBySlug($slug);
+
+        if (!$post) {
+            throw new NotFoundHttpException('Not found');
+        }
+
+        $this->data['slug']        = $slug;
+        $this->data['mainTitle']   = 'RSS-лента комментариев к посту &laquo;' . $post->getTitle() . '&raquo; ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['description'] = 'RSS-лента комментариев к посту &laquo;' . $post->getTitle() . '&raquo';
+        $this->data['email']       = $admin->getEmail();
+        $this->data['name']        = $admin->getFirstname();
+        $this->data['comments']    = $em->getRepository('ProjectsBlogBundle:Comment')->getByPostId($post->getId());
+
+        return $this->render('ProjectsBlogBundle:Blog:commentsToPostFeed.xml.twig', $this->data);
     }
 
     /**
