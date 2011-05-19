@@ -29,3 +29,13 @@ commentsFeed:
 commentsToPostFeed:
     pattern:  /feed/comments/{slug}/
     defaults: { _controller: ProjectsBlogBundle:Blog:commentsToPostFeed }
+
+htmlSitemap:
+    pattern:  /sitemap/
+    defaults: { _controller: ProjectsBlogBundle:Blog:htmlSitemap }
+
+xmlSitemap:
+    pattern:  /sitemap.{_format}
+    defaults: { _controller: ProjectsBlogBundle:Blog:xmlSitemap, _format: xml }
+    requirements:
+        _format: xml

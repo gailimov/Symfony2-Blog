@@ -276,6 +276,32 @@ class BlogController extends BaseController
     }
 
     /**
+     * HTML sitemap
+     */
+    public function htmlSitemapAction()
+    {
+        $em = $this->init();
+
+        $this->data['posts'] = $em->getRepository('ProjectsBlogBundle:Post')->getAllPosts()
+                                                                            ->getResult();
+
+        return $this->render('ProjectsBlogBundle:Blog:sitemap.html.twig', $this->data);
+    }
+
+    /**
+     * XML sitemap
+     */
+    public function xmlSitemapAction()
+    {
+        $em = $this->init();
+
+        $this->data['posts'] = $em->getRepository('ProjectsBlogBundle:Post')->getAllPosts()
+                                                                            ->getResult();
+
+        return $this->render('ProjectsBlogBundle:Blog:sitemap.xml.twig', $this->data);
+    }
+
+    /**
      * Get data for list
      * 
      * @param  string $mainTitle Title

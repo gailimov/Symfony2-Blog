@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>{{url}}</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+{% for category in categories %}
+    <url>
+        <loc>{{url}}/category/{{category.slug}}/</loc>
+    </url>
+{% endfor %}
+{% for post in posts %}
+    <url>
+        <loc>{{url}}/post/{{post.slug}}/</loc>
+        <lastmod>{{post.createdAt | date}}</lastmod>
+        <changefreq>daily</changefreq>
+    </url>
+{% endfor %}
+{% for page in pages %}
+    <url>
+        <loc>{{url}}/page/{{page.slug}}/</loc>
+    </url>
+{% endfor %}
+</urlset>

@@ -34,3 +34,9 @@ commentsFeed:
 
 commentsToPostFeed:
     resource: "@ProjectsBlogBundle/Resources/config/routing.yml"
+
+htmlSitemap:
+    resource: "@ProjectsBlogBundle/Resources/config/routing.yml"
+
+xmlSitemap:
+    resource: "@ProjectsBlogBundle/Resources/config/routing.yml"

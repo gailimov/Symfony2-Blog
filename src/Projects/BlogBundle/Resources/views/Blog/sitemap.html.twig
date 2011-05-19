@@ -1,0 +1,31 @@
+{% extends 'ProjectsBlogBundle::layout.html.twig' %}
+{% block content %}
+    <section class="posts">
+        <header class="main-section-header">
+            <h2>Карта блога</h2>
+        </header>
+        <article>
+            <header>
+                <h3>Посты</h3>
+            </header>
+            {% for category in categories %}
+            <p><a href="{{ path('category', {'slug': category.slug}) }}">{{category.title}}</a></p>
+            <ul>
+            {% for post in posts %}{% if post.categoryId.id == category.id %}
+                <li><a href="{{ path('post', {'slug': post.slug}) }}">{{post.title | raw}}</a></li>
+            {% endif %}{% endfor %}
+            </ul>
+            {% endfor %}
+        </article>
+        <article>
+            <header>
+                <h3>Страницы</h3>
+            </header>
+            <ul>
+            {% for page in pages %}
+                <li><a href="{{ path('page', {'slug': page.slug}) }}">{{page.title}}</a></li>
+            {% endfor %}
+            </ul>
+        </article>
+    </section> <!-- .posts -->
+{% endblock %}

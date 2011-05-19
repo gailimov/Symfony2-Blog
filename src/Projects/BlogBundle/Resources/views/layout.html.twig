@@ -25,7 +25,7 @@
     <div id="wrapper" class="border-rounded">
         <div class="head-wrapper">
             <header class="logo border-rounded">
-                <h1><a href="/sfblog/web/app_dev.php/index" rel="home" title="На главную">{{title}}</a></h1>
+                <h1><a href="{{ url('homepage') }}" rel="home" title="На главную">{{title}}</a></h1>
             </header>
             <nav class="border-rounded">
                 <ul>
@@ -67,6 +67,7 @@
         <footer class="clear border-rounded">
             <div class="copyright">
                 <p>&copy; &laquo;{{title}}&raquo; {{'now'|date('Y')}}</p>
+                <p><a href="{{ url('htmlSitemap') }}">Карта блога</a></p>
             </div>
             <div class="credits">
                 <p>
