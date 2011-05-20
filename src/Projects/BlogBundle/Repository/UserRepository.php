@@ -21,27 +21,6 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository extends EntityRepository
 {
     /**
-     * Get by username
-     * 
-     * @param  string $username Username
-     * @return array
-     */
-    public function getByUsername($username)
-    {
-        $query = "SELECT u
-                  FROM ProjectsBlogBundle:User u
-                  WHERE u.username = ?1";
-
-        try {
-            return $this->getEntityManager()->createQuery($query)
-                                            ->setParameter(1, $username)
-                                            ->getSingleResult();
-        } catch(NoResultException $e) {
-            return null;
-        }
-    }
-
-    /**
      * Get admin
      * 
      * @return array

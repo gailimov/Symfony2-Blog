@@ -59,7 +59,7 @@ class BlogController extends BaseController
             $commentUrlCookie = null;
         }
 
-        $post = $em->getRepository('ProjectsBlogBundle:Post')->getPostBySlug($slug);
+        $post = $em->getRepository('ProjectsBlogBundle:Post')->findOneBySlug($slug);
 
         if (!$post) {
             throw new NotFoundHttpException('Not found');
@@ -105,8 +105,10 @@ class BlogController extends BaseController
 
         $this->data['mainTitle']           = $post->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
         $this->data['description']         = $post->getDescription();
-        $this->data['comments']            = $em->getRepository('ProjectsBlogBundle:Comment')->getApprovedByPostId($post->getId());
         $this->data['post']                = $post;
+        $this->data['comments']            = $em->getRepository('ProjectsBlogBundle:Comment')
+                                                ->findBy(array('postId'   => $post->getId(),
+                                                               'approved' => 1));
         $this->data['errors']              = $errors;
         $this->data['commentAuthorCookie'] = $commentAuthorCookie;
         $this->data['commentEmailCookie']  = $commentEmailCookie;
@@ -129,7 +131,7 @@ class BlogController extends BaseController
             return $this->render('ProjectsBlogBundle:Blog:categories.html.twig', $this->getListData('Все категории'));
         }
 
-        $category = $em->getRepository('ProjectsBlogBundle:Category')->getBySlug($slug);
+        $category = $em->getRepository('ProjectsBlogBundle:Category')->findOneBySlug($slug);
 
         if (!$category) {
             throw new NotFoundHttpException('Category not found');
@@ -164,7 +166,7 @@ class BlogController extends BaseController
             return $this->render('ProjectsBlogBundle:Blog:authors.html.twig', $this->getListData('Все авторы', $authors));
         }
 
-        $author = $em->getRepository('ProjectsBlogBundle:User')->getByUsername($author);
+        $author = $em->getRepository('ProjectsBlogBundle:User')->findOneByUsername($author);
 
         if (!$author) {
             throw new NotFoundHttpException('Author not found');
@@ -196,7 +198,9 @@ class BlogController extends BaseController
             return $this->render('ProjectsBlogBundle:Blog:pages.html.twig', $this->getListData('Все страницы'));
         }
 
-        $page = $em->getRepository('ProjectsBlogBundle:Post')->getPageBySlug($slug);
+        $page = $em->getRepository('ProjectsBlogBundle:Post')
+                   ->findOneBy(array('postType' => 'page',
+                                     'slug'     => $slug));
 
         if (!$page) {
             throw new NotFoundHttpException('Not found');
@@ -259,7 +263,7 @@ class BlogController extends BaseController
 
         $admin = $em->getRepository('ProjectsBlogBundle:User')->getAdmin();
 
-        $post = $em->getRepository('ProjectsBlogBundle:Post')->getPostBySlug($slug);
+        $post = $em->getRepository('ProjectsBlogBundle:Post')->findOneBySlug($slug);
 
         if (!$post) {
             throw new NotFoundHttpException('Not found');
@@ -270,7 +274,9 @@ class BlogController extends BaseController
         $this->data['description'] = 'RSS-лента комментариев к посту &laquo;' . $post->getTitle() . '&raquo';
         $this->data['email']       = $admin->getEmail();
         $this->data['name']        = $admin->getFirstname();
-        $this->data['comments']    = $em->getRepository('ProjectsBlogBundle:Comment')->getApprovedByPostId($post->getId());
+        $this->data['comments']    = $em->getRepository('ProjectsBlogBundle:Comment')
+                                        ->findBy(array('postId'   => $post->getId(),
+                                                       'approved' => 1));
 
         return $this->render('ProjectsBlogBundle:Blog:commentsToPostFeed.xml.twig', $this->data);
     }

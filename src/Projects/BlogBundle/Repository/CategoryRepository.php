@@ -20,24 +20,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class CategoryRepository extends EntityRepository
 {
-    /**
-     * Get by slug
-     * 
-     * @param  string $slug Slug
-     * @return array
-     */
-    public function getBySlug($slug)
-    {
-        $query = "SELECT c
-                  FROM ProjectsBlogBundle:Category c
-                  WHERE c.slug = ?1";
-
-        try {
-            return $this->getEntityManager()->createQuery($query)
-                                            ->setParameter(1, $slug)
-                                            ->getSingleResult();
-        } catch(NoResultException $e) {
-            return null;
-        }
-    }
 }

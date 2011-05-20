@@ -37,27 +37,6 @@ class PostRepository extends EntityRepository
     }
 
     /**
-     * Get post by slug
-     * 
-     * @param  string $slug Slug
-     * @return array
-     */
-    public function getPostBySlug($slug)
-    {
-        $query = "SELECT p
-                  FROM ProjectsBlogBundle:Post p
-                  WHERE p.postType = 'post' AND p.slug = ?1";
-
-        try {
-            return $this->getEntityManager()->createQuery($query)
-                                            ->setParameter(1, $slug)
-                                            ->getSingleResult();
-        } catch(NoResultException $e) {
-            return null;
-        }
-    }
-
-    /**
      * Get post by ID of category
      * 
      * @param  integer $categoryId ID of category
@@ -112,41 +91,5 @@ class PostRepository extends EntityRepository
 
         return $this->getEntityManager()->createQuery($query)
                                         ->getSingleScalarResult();
-    }
-
-    /**
-     * Get all pages
-     * 
-     * @return array
-     */
-    public function getAllPages()
-    {
-        $query = "SELECT p
-                  FROM ProjectsBlogBundle:Post p
-                  WHERE p.postType = 'page'";
-
-        return $this->getEntityManager()->createQuery($query)
-                                        ->getResult();
-    }
-
-    /**
-     * Get page by slug
-     * 
-     * @param  string $slug Slug
-     * @return array
-     */
-    public function getPageBySlug($slug)
-    {
-        $query = "SELECT p
-                  FROM ProjectsBlogBundle:Post p
-                  WHERE p.postType = 'page' AND p.slug = ?1";
-
-        try {
-            return $this->getEntityManager()->createQuery($query)
-                                            ->setParameter(1, $slug)
-                                            ->getSingleResult();
-        } catch(NoResultException $e) {
-            return null;
-        }
     }
 }

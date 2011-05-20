@@ -42,26 +42,4 @@ class CommentRepository extends EntityRepository
             return false;
         }
     }
-
-    /**
-     * Get approved by post's ID
-     * 
-     * @param  integer $postId ID of post
-     * @return array
-     */
-    public function getApprovedByPostId($postId)
-    {
-        $query = "SELECT c
-                  FROM ProjectsBlogBundle:Comment c
-                  WHERE c.postId = ?1
-                  AND c.approved = 1";
-
-        try {
-            return $this->getEntityManager()->createQuery($query)
-                                            ->setParameter(1, $postId)
-                                            ->getResult();
-        } catch(NoResultException $e) {
-            return null;
-        }
-    }
 }
