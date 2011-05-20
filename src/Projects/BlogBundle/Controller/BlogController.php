@@ -44,24 +44,24 @@ class BlogController extends BaseController
         $errors = array();
         // Cookies
         if (isset($_COOKIE['sfb_commentAuthor'])) {
-            $commentAuthorCookie = $_COOKIE['sfb_commentAuthor'];
+            $this->data['commentAuthorCookie'] = $_COOKIE['sfb_commentAuthor'];
         } else {
-            $commentAuthorCookie = null;
+            $this->data['commentAuthorCookie'] = null;
         }
         if (isset($_COOKIE['sfb_commentEmail'])) {
-            $commentEmailCookie = $_COOKIE['sfb_commentEmail'];
+            $this->data['commentEmailCookie'] = $_COOKIE['sfb_commentEmail'];
         } else {
-            $commentEmailCookie = null;
+            $this->data['commentEmailCookie'] = null;
         }
         if (isset($_COOKIE['sfb_commentUrl'])) {
-            $commentUrlCookie = $_COOKIE['sfb_commentUrl'];
+            $this->data['commentUrlCookie'] = $_COOKIE['sfb_commentUrl'];
         } else {
-            $commentUrlCookie = null;
+            $this->data['commentUrlCookie'] = null;
         }
 
-        $post = $em->getRepository('ProjectsBlogBundle:Post')->findOneBySlug($slug);
+        $this->data['post'] = $em->getRepository('ProjectsBlogBundle:Post')->findOneBySlug($slug);
 
-        if (!$post) {
+        if (!$this->data['post']) {
             throw new NotFoundHttpException('Not found');
         }
 
@@ -80,14 +80,14 @@ class BlogController extends BaseController
             $adminEmail = $admin->getEmail();
 
             // Preparing comment data
-            $commentData = array('post'    => $post->getTitle(),
+            $commentData = array('post'    => $this->data['post']->getTitle(),
                                  'author'  => trim($request->request->get('cauthor')),
                                  'comment' => nl2br(htmlspecialchars($request->request->get('ccomment'))),
                                  'link'    => $this->url . '/post/' . $slug . '/');
 
             // If the comment is valid - add it
             if (count($errors) === 0) {
-                $this->addComment($post->getId(), $em, $request, $comment);
+                $this->addComment($this->data['post']->getId(), $em, $request, $comment);
 
                 // Setting the cookie
                 $expire = time() + 3600 * 24 * 365;
@@ -103,16 +103,12 @@ class BlogController extends BaseController
             }
         }
 
-        $this->data['mainTitle']           = $post->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
-        $this->data['description']         = $post->getDescription();
-        $this->data['post']                = $post;
-        $this->data['comments']            = $em->getRepository('ProjectsBlogBundle:Comment')
-                                                ->findBy(array('postId'   => $post->getId(),
-                                                               'approved' => 1));
-        $this->data['errors']              = $errors;
-        $this->data['commentAuthorCookie'] = $commentAuthorCookie;
-        $this->data['commentEmailCookie']  = $commentEmailCookie;
-        $this->data['commentUrlCookie']    = $commentUrlCookie;
+        $this->data['mainTitle']   = $this->data['post']->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['description'] = $this->data['post']->getDescription();
+        $this->data['comments']    = $em->getRepository('ProjectsBlogBundle:Comment')
+                                        ->findBy(array('postId'   => $this->data['post']->getId(),
+                                                       'approved' => 1));
+        $this->data['errors']      = $errors;
 
         return $this->render('ProjectsBlogBundle:Blog:post.html.twig', $this->data);
     }
@@ -137,16 +133,14 @@ class BlogController extends BaseController
             throw new NotFoundHttpException('Category not found');
         }
 
-        $posts = $this->createPaginator($em->getRepository('ProjectsBlogBundle:Post')->getPostByCategoryId($category->getId()));
+        $this->data['posts'] = $this->createPaginator($em->getRepository('ProjectsBlogBundle:Post')->getPostByCategoryId($category->getId()));
 
-        // TODO: FIX THIS
-        if (!$posts) {
+        if (!$this->data['posts']) {
             throw new NotFoundHttpException('Posts not found');
         }
 
         $this->data['mainTitle']   = $category->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
         $this->data['description'] = $category->getDescription();
-        $this->data['posts']       = $posts;
 
         return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $this->data);
     }
@@ -172,14 +166,13 @@ class BlogController extends BaseController
             throw new NotFoundHttpException('Author not found');
         }
 
-        $posts = $this->createPaginator($em->getRepository('ProjectsBlogBundle:Post')->getPostByUserId($author->getId()));
+        $this->data['posts'] = $this->createPaginator($em->getRepository('ProjectsBlogBundle:Post')->getPostByUserId($author->getId()));
 
-        if (!$posts) {
+        if (!$this->data['posts']) {
             throw new NotFoundHttpException('Posts not found');
         }
 
-        $this->data['mainTitle'] = $author->getUsername() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
-        $this->data['posts']     = $posts;
+        $this->data['mainTitle'] = 'Посты автора &laquo;' . $author->getUsername() . '&raquo; ' . $this->config['titleSeparator'] . ' ' . $this->title;
 
         return $this->render('ProjectsBlogBundle:Blog:posts.html.twig', $this->data);
     }
@@ -198,17 +191,16 @@ class BlogController extends BaseController
             return $this->render('ProjectsBlogBundle:Blog:pages.html.twig', $this->getListData('Все страницы'));
         }
 
-        $page = $em->getRepository('ProjectsBlogBundle:Post')
-                   ->findOneBy(array('postType' => 'page',
-                                     'slug'     => $slug));
+        $this->data['page'] = $em->getRepository('ProjectsBlogBundle:Post')
+                                 ->findOneBy(array('postType' => 'page',
+                                                   'slug'     => $slug));
 
-        if (!$page) {
+        if (!$this->data['page']) {
             throw new NotFoundHttpException('Not found');
         }
 
-        $this->data['mainTitle']   = $page->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
-        $this->data['description'] = $page->getDescription();
-        $this->data['page']        = $page;
+        $this->data['mainTitle']   = $this->data['page']->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['description'] = $this->data['page']->getDescription();
 
         return $this->render('ProjectsBlogBundle:Blog:page.html.twig', $this->data);
     }
@@ -243,9 +235,6 @@ class BlogController extends BaseController
         $this->data['mainTitle'] = 'RSS-лента комментариев ' . $this->config['titleSeparator'] . ' ' . $this->title;
         $this->data['email']     = $admin->getEmail();
         $this->data['name']      = $admin->getFirstname();
-        $this->data['posts']     = $em->getRepository('ProjectsBlogBundle:Post')
-                                      ->getAllPosts()
-                                      ->getResult();
         $this->data['comments']  = $em->getRepository('ProjectsBlogBundle:Comment')
                                       ->getAllApproved('10');
 
@@ -263,20 +252,17 @@ class BlogController extends BaseController
 
         $admin = $em->getRepository('ProjectsBlogBundle:User')->getAdmin();
 
-        $post = $em->getRepository('ProjectsBlogBundle:Post')->findOneBySlug($slug);
+        $this->data['post'] = $em->getRepository('ProjectsBlogBundle:Post')->findOneBySlug($slug);
 
-        if (!$post) {
+        if (!$this->data['post']) {
             throw new NotFoundHttpException('Not found');
         }
 
         $this->data['slug']        = $slug;
-        $this->data['mainTitle']   = 'RSS-лента комментариев к посту &laquo;' . $post->getTitle() . '&raquo; ' . $this->config['titleSeparator'] . ' ' . $this->title;
-        $this->data['description'] = 'RSS-лента комментариев к посту &laquo;' . $post->getTitle() . '&raquo';
+        $this->data['mainTitle']   = 'RSS-лента комментариев к посту &laquo;' . $this->data['post']->getTitle() . '&raquo; ' . $this->config['titleSeparator'] . ' ' . $this->title;
+        $this->data['description'] = 'RSS-лента комментариев к посту &laquo;' . $this->data['post']->getTitle() . '&raquo';
         $this->data['email']       = $admin->getEmail();
         $this->data['name']        = $admin->getFirstname();
-        $this->data['comments']    = $em->getRepository('ProjectsBlogBundle:Comment')
-                                        ->findBy(array('postId'   => $post->getId(),
-                                                       'approved' => 1));
 
         return $this->render('ProjectsBlogBundle:Blog:commentsToPostFeed.xml.twig', $this->data);
     }

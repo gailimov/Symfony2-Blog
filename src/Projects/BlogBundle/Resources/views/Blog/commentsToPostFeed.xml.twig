@@ -8,7 +8,8 @@
         <webMaster>{{email}} ({{name}})</webMaster>
         <copyright>{{name}}</copyright>
         <description>{{description}}</description>
-{% for comment in comments %}
+{% for comment in post.comments %}
+    {% if comment.approved == 1 %}
         <item>
             <title>{{comment.author}}</title>
             <pubDate>{{comment.createdAt | date}}</pubDate>
@@ -16,6 +17,7 @@
             <link>{{url}}/post/{{slug}}/#comment-{{comment.id}}</link>
             <description><![CDATA[ {{comment.comment}} ]]></description>
         </item>
+    {% endif %}
 {% endfor %}
     </channel>
 </rss>

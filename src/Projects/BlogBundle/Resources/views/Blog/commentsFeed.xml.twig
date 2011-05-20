@@ -9,17 +9,13 @@
         <copyright>{{name}}</copyright>
         <description>RSS-лента комментариев</description>
 {% for comment in comments %}
-    {% for post in posts %}
-        {% if comment.postId.id == post.id %}
         <item>
-            <title>Комментарий к посту &amp;laquo;{{post.title}}&amp;raquo; от {{comment.author}}</title>
+            <title>Комментарий к посту &amp;laquo;{{comment.postId.title}}&amp;raquo; от {{comment.author}}</title>
             <pubDate>{{comment.createdAt | date}}</pubDate>
-            <guid>{{url}}/post/{{post.slug}}/#comment-{{comment.id}}</guid>
-            <link>{{url}}/post/{{post.slug}}/#comment-{{comment.id}}</link>
+            <guid>{{url}}/post/{{comment.postId.slug}}/#comment-{{comment.id}}</guid>
+            <link>{{url}}/post/{{comment.postId.slug}}/#comment-{{comment.id}}</link>
             <description><![CDATA[ {{comment.comment}} ]]></description>
         </item>
-        {% endif %}
-    {% endfor %}
 {% endfor %}
     </channel>
 </rss>
