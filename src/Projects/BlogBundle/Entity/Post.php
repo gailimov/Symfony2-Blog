@@ -10,6 +10,8 @@
 
 namespace Projects\BlogBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Projects\BlogBundle\Entity\Post
  * 
@@ -34,7 +36,7 @@ class Post
      * 
      * @var integer
      * 
-     * @orm:ManyToOne(targetEntity="Category")
+     * @orm:ManyToOne(targetEntity="Category", inversedBy="posts")
      * @orm:JoinColumn(name="category_id", nullable=true, referencedColumnName="id")
      */
     protected $categoryId;
@@ -149,9 +151,19 @@ class Post
      */
     protected $approved;
 
+    /**
+     * Comments
+     * 
+     * @var object
+     * 
+     * @orm:OneToMany(targetEntity="Comment", mappedBy="postId")
+     */
+    protected $comments;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -422,5 +434,25 @@ class Post
     public function getModuleId()
     {
         return $this->moduleId;
+    }
+
+    /**
+     * Add comments
+     * 
+     * @param Projects\BlogBundle\Entity\Comment $comments
+     */
+    public function addComments(\Projects\BlogBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+    }
+
+    /**
+     * Get comments
+     * 
+     * @return \Doctrine\Common\Collections\Collection $comments
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

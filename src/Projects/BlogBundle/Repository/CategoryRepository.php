@@ -21,24 +21,6 @@ use Doctrine\ORM\EntityRepository;
 class CategoryRepository extends EntityRepository
 {
     /**
-     * Get all
-     * 
-     * @return array
-     */
-    public function getAll()
-    {
-        /*$query = "SELECT c.id, c.slug, c.title, c.description, COUNT(c.id) AS counter
-                  FROM ProjectsBlogBundle:Category c, ProjectsBlogBundle:Post p
-                  WHERE c.id = p.categoryId";*/
-
-        $query = "SELECT c
-                  FROM ProjectsBlogBundle:Category c";
-
-        return $this->getEntityManager()->createQuery($query)
-                                        ->getResult();
-    }
-
-    /**
      * Get by slug
      * 
      * @param  string $slug Slug

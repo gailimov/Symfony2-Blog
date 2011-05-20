@@ -105,8 +105,8 @@ class BlogController extends BaseController
 
         $this->data['mainTitle']           = $post->getTitle() . ' ' . $this->config['titleSeparator'] . ' ' . $this->title;
         $this->data['description']         = $post->getDescription();
+        $this->data['comments']            = $em->getRepository('ProjectsBlogBundle:Comment')->getApprovedByPostId($post->getId());
         $this->data['post']                = $post;
-        $this->data['comments']            = $em->getRepository('ProjectsBlogBundle:Comment')->getByPostId($post->getId());
         $this->data['errors']              = $errors;
         $this->data['commentAuthorCookie'] = $commentAuthorCookie;
         $this->data['commentEmailCookie']  = $commentEmailCookie;
@@ -270,7 +270,7 @@ class BlogController extends BaseController
         $this->data['description'] = 'RSS-лента комментариев к посту &laquo;' . $post->getTitle() . '&raquo';
         $this->data['email']       = $admin->getEmail();
         $this->data['name']        = $admin->getFirstname();
-        $this->data['comments']    = $em->getRepository('ProjectsBlogBundle:Comment')->getByPostId($post->getId());
+        $this->data['comments']    = $em->getRepository('ProjectsBlogBundle:Comment')->getApprovedByPostId($post->getId());
 
         return $this->render('ProjectsBlogBundle:Blog:commentsToPostFeed.xml.twig', $this->data);
     }

@@ -44,12 +44,12 @@ class CommentRepository extends EntityRepository
     }
 
     /**
-     * Get by post ID
+     * Get approved by post's ID
      * 
      * @param  integer $postId ID of post
      * @return array
      */
-    public function getByPostId($postId)
+    public function getApprovedByPostId($postId)
     {
         $query = "SELECT c
                   FROM ProjectsBlogBundle:Comment c

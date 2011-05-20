@@ -10,6 +10,8 @@
 
 namespace Projects\BlogBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Projects\BlogBundle\Entity\Category
  * 
@@ -55,6 +57,20 @@ class Category
      * @orm:Column(type="string", length="100", nullable=true)
      */
     protected $description;
+
+    /**
+     * Posts
+     * 
+     * @var object
+     * 
+     * @orm:OneToMany(targetEntity="Post", mappedBy="categoryId")
+     */
+    protected $posts;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -124,5 +140,25 @@ class Category
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Add posts
+     * 
+     * @param Projects\BlogBundle\Entity\Post $posts
+     */
+    public function addPosts(\Projects\BlogBundle\Entity\Post $posts)
+    {
+        $this->posts[] = $posts;
+    }
+
+    /**
+     * Get posts
+     * 
+     * @return \Doctrine\Common\Collections\Collection $posts
+     */
+    public function getPosts()
+    {
+        return $this->posts;
     }
 }

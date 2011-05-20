@@ -49,7 +49,7 @@
                 </header>
                 <ul>
                 {% for category in categories %}
-                    <li><a href="{{ path('category', {'slug': category.slug}) }}">{{category.title}}</a> <sup>{# {{category.counter}} #}</sup></li>
+                    <li><a href="{{ path('category', {'slug': category.slug}) }}">{{category.title}}</a> <sup>{{category.posts.count}}</sup></li>
                 {% endfor %}
                 </ul>
             </section>

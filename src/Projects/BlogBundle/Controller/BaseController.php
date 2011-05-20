@@ -109,7 +109,7 @@ class BaseController extends Controller
         $this->postsNum          = $config->getPostsNum();
         $this->commentsModerated = $config->getCommentsModerated();
         $this->pages             = $em->getRepository('ProjectsBlogBundle:Post')->getAllPages();
-        $this->categories        = $em->getRepository('ProjectsBlogBundle:Category')->getAll();
+        $this->categories        = $em->getRepository('ProjectsBlogBundle:Category')->findAll();
         $this->links             = $em->getRepository('ProjectsBlogBundle:Link')->findAll();
         $this->data              = $this->getData();
 

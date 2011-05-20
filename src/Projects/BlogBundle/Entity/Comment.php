@@ -34,7 +34,7 @@ class Comment
      * 
      * @var integer
      * 
-     * @orm:ManyToOne(targetEntity="Post")
+     * @orm:ManyToOne(targetEntity="Post", inversedBy="comments")
      * @orm:JoinColumn(name="post_id", referencedColumnName="id", nullable=false)
      */
     protected $postId;

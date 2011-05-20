@@ -10,7 +10,7 @@
             <div class="right">{{post.createdAt|date('d M Y')}} г.</div>
             <div class="clear"></div>
             <p>{{post.post | raw}}</p>
-            <div class="left"><a href="post.html#comments" title="Посмотреть все комментарии">22 комментария</a></div>
+            <div class="left"><a href="{{ path('post', {'slug' :post.slug}) }}#comments" title="Посмотреть все комментарии">Комментарии ({{post.comments.count}})</a></div>
             <div class="right"><a href="{{ path('post', {'slug': post.slug}) }}">Продолжение</a> &rarr;</div>
             <div class="clear"></div>
         </article>
